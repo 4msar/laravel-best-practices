@@ -1,5 +1,7 @@
 ![Laravel best practices](/images/logo-french.png?raw=true)
 
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
 Traductions:
 
 [Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (by [Protoqol](https://github.com/Protoqol))
@@ -12,7 +14,7 @@ Traductions:
 
 [ภาษาไทย](thai.md) (by [kongvut sangkla](https://github.com/kongvut))
 
-[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/amirbagh75))
+[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/ohmydevops))
 
 [Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
@@ -26,15 +28,19 @@ Traductions:
 
 [Français](french.md) (by [Mikayil S.](https://github.com/mikayilsrt))
 
-[Polski](https://github.com/maciejjeziorski/laravel-best-practices-pl) (by [Maciej Jeziorski](https://github.com/maciejjeziorski))
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
 
 [Türkçe](turkish.md) (by [Burak](https://github.com/ikidnapmyself))
 
-[Deutsche](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
+[Deutsch](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [Italiana](italian.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
-Ce n'est pas une adaptation Laravel des principes SOLID, des modèles, etc. Vous trouverez ici les meilleures pratiques qui sont généralement ignorées dans les projets réels de Laravel.
+[العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
+
+[اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
+
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 ## Contenu
 
@@ -81,7 +87,7 @@ Une classe et une méthode ne devraient avoir qu'une seule responsabilité.
 Mal:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -94,22 +100,22 @@ public function getFullNameAttribute()
 Bien:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
@@ -174,7 +180,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -182,8 +188,8 @@ Bien:
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -214,7 +220,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -225,7 +231,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -322,6 +328,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -339,7 +346,7 @@ $category->article()->create($request->validated());
 
 Mal (Pour 100 utilisateurs, 101 requêtes DB seront exécutées):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -349,8 +356,6 @@ Bien (pour 100 utilisateurs, 2 requêtes de base de données seront exécutées)
 
 ```php
 $users = User::with('profile')->get();
-
-...
 
 @foreach ($users as $user)
     {{ $user->profile->name }}
@@ -386,7 +391,7 @@ if ($this->hasJoins())
 
 Mal:
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -443,17 +448,17 @@ Préférez utiliser les fonctionnalités intégrées de Laravel et les packages 
 Tâche | Outils standard | Outils tiers
 ------------ | ------------- | -------------
 Autorisation | Policies | Entrust, Sentinel et d'autres packages
-Compiler des assets | Laravel Mix | Grunt, Gulp, packages tiers
-Environnement de développement | Homestead | Docker
+Compiler des assets | Laravel Mix, Vite | Grunt, Gulp, packages tiers
+Environnement de développement | Laravel Sail, Homestead | Docker
 Déploiement | Laravel Forge | Deployer et d'autre solutions
-Tests unitaires | PHPUnit, Mockery | Phpspec
+Tests unitaires | PHPUnit, Mockery | Phpspec, Pest
 Test du navigateur | Laravel Dusk | Codeception
 DB | Eloquent | SQL, Doctrine
 Templates | Blade | Twig
 Travailler avec des données | Laravel collections | Arrays
 Validation du formulaire | Request classes | 3rd party packages, validation dans le contrôleur
 Authentification | Built-in | 3rd party packages, votre propre solution
-API D'authentification | Laravel Passport | 3rd party JWT et OAuth packages
+API D'authentification | Laravel Passport, Laravel Sanctum | 3rd party JWT et OAuth packages
 Création d'API | Built-in | Dingo API and similar packages
 Travailler avec une structure de base de données | Migrations | Travailler directement avec la structure de la base de données
 Localisation | Built-in | 3rd party packages
@@ -466,9 +471,9 @@ DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
 ### **Suivre les conventions de nommage de Laravel**
 
- Suivre [Normes PSR](http://www.php-fig.org/psr/psr-2/).
+Suivre [Normes PSR](https://www.php-fig.org/psr/psr-12/).
 
- Suivez également les conventions de nommage acceptées par la communauté Laravel:
+Suivez également les conventions de nommage acceptées par la communauté Laravel:
 
 Quoi | Comment | Bien | Mal
 ------------ | ------------- | ------------- | -------------
@@ -494,8 +499,12 @@ Object | descriptif, singulier | $activeUser = User::active()->first() | ~~$user
 Index de fichier de config et de langage | snake_case | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
 Vue | kebab-case | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 Config | snake_case | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-Contract (interface) | adjectif ou nom | Authenticatable | ~~AuthenticationInterface, IAuthentication~~
+Contract (interface) | adjectif ou nom | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | adjectif | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
 [🔝 Retour au contenu](#contents)
 
@@ -557,7 +566,7 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```

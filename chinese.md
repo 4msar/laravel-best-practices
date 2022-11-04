@@ -1,5 +1,7 @@
 ![Laravel best practices](/images/logo-chinese.png?raw=true)
 
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
 多国语言列表:
 
 [Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (by [Protoqol](https://github.com/Protoqol))
@@ -10,7 +12,7 @@
 
 [Русский](russian.md)
 
-[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/amirbagh75))
+[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/ohmydevops))
 
 [Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
@@ -20,53 +22,57 @@
 
 [Français](french.md) (by [Mikayil S.](https://github.com/mikayilsrt))
 
-[Polski](https://github.com/maciejjeziorski/laravel-best-practices-pl) (by [Maciej Jeziorski](https://github.com/maciejjeziorski))
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
 
 [Türkçe](turkish.md) (by [Burak](https://github.com/ikidnapmyself))
 
-[Deutsche](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
+[Deutsch](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [Italiana](italian.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
-这并非laravel官方强制要求的规范，而是我们在日常开发过程中遇到的一些容易忽视的优秀实现方式。
+[العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
+
+[اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
+
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 ## 内容
 
-[单一职责原则](#single-responsibility-principle)
+[单一职责原则](#单一职责原则)
 
-[保持控制器的简洁](#fat-models-skinny-controllers)
+[保持控制器的简洁](#保持控制器的简洁)
 
-[使用自定义Request类来进行验证](#validation)
+[使用自定义Request类来进行验证](#使用自定义Request类来进行验证)
 
-[业务代码要放到服务层中](#business-logic-should-be-in-service-class)
+[业务代码要放到服务层中](#业务代码要放到服务层中)
 
-[DRY原则 不要重复自己](#dont-repeat-yourself-dry)
+[DRY原则 不要重复自己](#DRY原则-不要重复自己)
 
-[使用ORM而不是纯sql语句，使用集合而不是数组](#prefer-to-use-eloquent-over-using-query-builder-and-raw-sql-queries-prefer-collections-over-arrays)
+[使用ORM而不是纯sql语句，使用集合而不是数组](#使用ORM而不是纯sql语句使用集合而不是数组)
 
-[集中处理数据](#mass-assignment)
+[集中处理数据](#集中处理数据)
 
-[不要在模板中查询，尽量使用惰性加载](#do-not-execute-queries-in-blade-templates-and-use-eager-loading-n--1-problem)
+[不要在模板中查询，尽量使用惰性加载](#不要在模板中查询尽量使用惰性加载)
 
-[注释你的代码，但是更优雅的做法是使用描述性的语言来编写你的代码](#comment-your-code-but-prefer-descriptive-method-and-variable-names-over-comments)
+[注释你的代码，但是更优雅的做法是使用描述性的语言来编写你的代码](#注释你的代码但是更优雅的做法是使用描述性的语言来编写你的代码)
 
-[不要把 JS 和 CSS 放到 Blade 模板中，也不要把任何 HTML 代码放到 PHP 代码里](#do-not-put-js-and-css-in-blade-templates-and-do-not-put-any-html-in-php-classes)
+[不要把 JS 和 CSS 放到 Blade 模板中，也不要把任何 HTML 代码放到 PHP 代码里](#不要把-JS-和-CSS-放到-Blade-模板中也不要把任何-HTML-代码放到-PHP-代码里)
 
-[在代码中使用配置、语言包和常量，而不是使用硬编码](#use-config-and-language-files-constants-instead-of-text-in-the-code)
+[在代码中使用配置、语言包和常量，而不是使用硬编码](#在代码中使用配置语言包和常量而不是使用硬编码)
 
-[使用社区认可的标准Laravel工具](#use-standard-laravel-tools-accepted-by-community)
+[使用社区认可的标准Laravel工具](#使用社区认可的标准Laravel工具)
 
-[遵循laravel命名约定](#follow-laravel-naming-conventions)
+[遵循laravel命名约定](#遵循laravel命名约定)
 
-[尽可能使用简短且可读性更好的语法](#use-shorter-and-more-readable-syntax-where-possible)
+[尽可能使用简短且可读性更好的语法](#尽可能使用简短且可读性更好的语法)
 
-[使用IOC容器来创建实例 而不是直接new一个实例](#use-ioc-container-or-facades-instead-of-new-class)
+[使用IOC容器来创建实例 而不是直接new一个实例](#使用IOC容器来创建实例-而不是直接new一个实例)
 
-[避免直接从 `.env` 文件里获取数据](#do-not-get-data-from-the-env-file-directly)
+[避免直接从 `.env` 文件里获取数据](#避免直接从-env-文件里获取数据)
 
-[使用标准格式来存储日期，用访问器和修改器来修改日期格式](#store-dates-in-the-standard-format-use-accessors-and-mutators-to-modify-date-format)
+[使用标准格式来存储日期，用访问器和修改器来修改日期格式](#使用标准格式来存储日期用访问器和修改器来修改日期格式)
 
-[其他的好建议](#other-good-practices)
+[其他的好建议](#其他的一些好建议)
 
 ### **单一职责原则**
 
@@ -75,7 +81,7 @@
 例如:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -88,28 +94,28 @@ public function getFullNameAttribute()
 更优的写法:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **保持控制器的简洁**
 
@@ -151,7 +157,7 @@ class Client extends Model
 }
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **使用自定义Request类来进行验证**
 
@@ -168,7 +174,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -176,8 +182,8 @@ public function store(Request $request)
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -193,7 +199,7 @@ class PostRequest extends Request
 }
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **业务代码要放到服务层中**
 
@@ -208,7 +214,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -219,7 +225,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -233,7 +239,7 @@ class ArticleService
 }
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **DRY原则 不要重复自己**
 
@@ -276,7 +282,7 @@ public function getArticles()
 }
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **使用ORM而不是纯sql语句，使用集合而不是数组**
 
@@ -305,7 +311,7 @@ ORDER BY `created_at` DESC
 Article::has('user.profile')->verified()->latest()->get();
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **集中处理数据**
 
@@ -316,6 +322,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -327,13 +334,13 @@ $article->save();
 $category->article()->create($request->validated());
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **不要在模板中查询，尽量使用惰性加载**
 
 例子 (对于100个用户，将执行101次DB查询):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -344,14 +351,12 @@ $category->article()->create($request->validated());
 ```php
 $users = User::with('profile')->get();
 
-...
-
 @foreach ($users as $user)
     {{ $user->profile->name }}
 @endforeach
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **注释你的代码，但是更优雅的做法是使用描述性的语言来编写你的代码**
 
@@ -374,13 +379,13 @@ if (count((array) $builder->getQuery()->joins) > 0)
 if ($this->hasJoins())
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **不要把 JS 和 CSS 放到 Blade 模板中，也不要把任何 HTML 代码放到 PHP 代码里**
 
 例子:
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -402,7 +407,7 @@ let article = $('#article').val();
 
 当然最好的办法还是使用专业的PHP的JS包传输数据。
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **在代码中使用配置、语言包和常量，而不是使用硬编码**
 
@@ -428,7 +433,7 @@ public function isNormal()
 return back()->with('message', __('app.article_added'));
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **使用社区认可的标准Laravel工具**
 
@@ -440,17 +445,17 @@ return back()->with('message', __('app.article_added'));
 想要实现的功能 | 标准工具 | 第三方工具
 ------------ | ------------- | -------------
 权限 | Policies | Entrust, Sentinel 或者其他扩展包
-资源编译工具| Laravel Mix | Grunt, Gulp, 或者其他第三方包
-开发环境| Homestead | Docker
+资源编译工具| Laravel Mix, Vite | Grunt, Gulp, 或者其他第三方包
+开发环境| Laravel Sail, Homestead | Docker
 部署 | Laravel Forge | Deployer 或者其他解决方案
-自动化测试 | PHPUnit, Mockery | Phpspec
+自动化测试 | PHPUnit, Mockery | Phpspec, Pest
 页面预览测试 | Laravel Dusk | Codeception
 DB操纵 | Eloquent | SQL, Doctrine
 模板 | Blade | Twig
 数据操纵 | Laravel集合 | 数组
 表单验证| Request classes | 他第三方包,甚至在控制器中做验证
 权限 | Built-in | 他第三方包或者你自己解决
-API身份验证 | Laravel Passport | 第三方的JWT或者 OAuth 扩展包
+API身份验证 | Laravel Passport, Laravel Sanctum | 第三方的JWT或者 OAuth 扩展包
 创建 API | Built-in | Dingo API 或者类似的扩展包
 创建数据库结构 | Migrations | 直接用 DB 语句创建
 本土化 | Built-in |第三方包
@@ -459,11 +464,11 @@ API身份验证 | Laravel Passport | 第三方的JWT或者 OAuth 扩展包
 任务调度| Laravel Task Scheduler | 脚本和第三方包
 数据库 | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **遵循laravel命名约定**
 
-来源 [PSR standards](http://www.php-fig.org/psr/psr-2/).
+来源 [PSR standards](https://www.php-fig.org/psr/psr-12/).
  
 另外，遵循Laravel社区认可的命名约定：
 
@@ -491,10 +496,14 @@ hasOne或belongsTo关系 | 单数 | articleComment | ~~articleComments, article_
 配置和语言文件索引 | 蛇形命名 | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
 视图 | 短横线命名 | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 配置 | 蛇形命名 | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-内容 (interface) | 形容词或名词 | Authenticatable | ~~AuthenticationInterface, IAuthentication~~
+内容 (interface) | 形容词或名词 | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | 使用形容词 | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **尽可能使用简短且可读性更好的语法**
 
@@ -533,7 +542,7 @@ $request->name;
 `->select('id', 'name')->get()` | `->get(['id', 'name'])`
 `->first()->name` | `->value('name')`
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **使用IOC容器来创建实例 而不是直接new一个实例**
 
@@ -554,12 +563,12 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **避免直接从 `.env` 文件里获取数据**
 
@@ -581,7 +590,7 @@ $apiKey = env('API_KEY');
 $apiKey = config('api.key');
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **使用标准格式来存储日期，用访问器和修改器来修改日期格式**
 
@@ -607,7 +616,7 @@ public function getSomeDateAttribute($date)
 {{ $object->ordered_at->some_date }}
 ```
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 ### **其他的一些好建议**
 
@@ -615,6 +624,6 @@ public function getSomeDateAttribute($date)
 
 尽量不要在Blade模板中写原始 PHP 代码。
 
-[🔝 返回目录](#contents)
+[🔝 返回目录](#内容)
 
 

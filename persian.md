@@ -1,28 +1,60 @@
 ![روش های روش قابل قبول توسعه پروژه های مبتنی بر فریم ورک لاراول](/images/logo-persian.png?raw=true)
 
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
 <div dir="rtl">
 
 ترجمه ها:
 
+</div>
+
+[Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (by [Protoqol](https://github.com/Protoqol))
+
+[Indonesia](indonesia.md) (by [P0rguy](https://github.com/p0rguy), [Doni Ahmad](https://github.com/donyahmd))
+
 [한국어](https://github.com/xotrs/laravel-best-practices) (by [cherrypick](https://github.com/xotrs))
+
+[日本語](japanese.md) (by [2bo](https://github.com/2bo))
+
+[简体中文](chinese.md) (by [xiaoyi](https://github.com/Shiloh520))
+
+[繁體中文](traditional-chinese.md) (by [woeichern](https://github.com/woeichern))
+
+[ภาษาไทย](thai.md) (by [kongvut sangkla](https://github.com/kongvut))
+
+[বাংলা](bangla.md) (by [Anowar Hossain](https://github.com/AnowarCST))
+
+[فارسی](persian.md) (by [Amirhossein baghaie](https://github.com/ohmydevops))
+
+[Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
 [Українська](ukrainian.md) (by [Tenevyk](https://github.com/tenevyk))
 
-[روسی](russian.md)
-
-[فارسی](persian.md)
-
-[پرتقالی](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
+[Русский](russian.md)
 
 [Tiếng Việt](https://chungnguyen.xyz/posts/code-laravel-lam-sao-cho-chuan) (by [Chung Nguyễn](https://github.com/nguyentranchung))
 
+[Español](spanish.md) (by [César Escudero](https://github.com/cedaesca))
+
+[Français](french.md) (by [Mikayil S.](https://github.com/mikayilsrt))
+
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
+
 [Türkçe](turkish.md) (by [Burak](https://github.com/ikidnapmyself))
 
-[Deutsche](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
+[Deutsch](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [Italiana](italian.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
-این مستندات درباره سازگاری لاراول با اصول SOLID یا Design Pattern ها و ... نیست. اینجا شما روش های اصولی توسعه پروژه های مبتنی بر لاراول رو پیدا میکنید که معمولا داخل پروژه ها در نظر گرفته نمیشوند.
+[Azərbaycanca](https://github.com/Maharramoff/laravel-best-practices-az) (by [Maharramoff](https://github.com/Maharramoff))
+
+[العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
+
+[اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
+
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
+<div dir="rtl">
 
 ## فهرست مطالب
 
@@ -67,14 +99,14 @@
 
 ### **اصل تک وظیفه ای بودن**
 
-هر class و هر methode باید یک وظیفه داشته باشد.
+هر class و هر method باید یک وظیفه داشته باشد.
 
 ❌ روش اشتباه:
 
 </div>
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -90,22 +122,22 @@ public function getFullNameAttribute()
 </div>
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
@@ -179,7 +211,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 <div dir="rtl">
@@ -190,8 +222,8 @@ public function store(Request $request)
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -225,7 +257,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 <div dir="rtl">
@@ -239,7 +271,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -353,6 +385,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -376,7 +409,7 @@ $category->article()->create($request->all());
 
 </div>
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -389,8 +422,6 @@ $category->article()->create($request->all());
 
 ```php
 $users = User::with('profile')->get();
-
-...
 
 @foreach ($users as $user)
     {{ $user->profile->name }}
@@ -439,7 +470,7 @@ if ($this->hasJoins())
 
 </div>
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 <div dir="rtl">
@@ -470,7 +501,7 @@ let article = $('#article').val();
 
 [🔝 بازگشت به فهرست](#فهرست-مطالب)
 
-### **به جای استفاده مستقیم از متن ها در کد، از فایل های config و langugeus استفاده کنید!**
+### **به جای استفاده مستقیم از متن ها در کد، از فایل های config و languages استفاده کنید!**
 
 ❌ روش اشتباه:
 
@@ -511,17 +542,17 @@ return back()->with('message', __('app.article_added'));
 نیاز | ابزارهای رسمی لاراول | ابزارهای غیررسمی لاراول
 ------------ | ------------- | -------------
 Authorization | Policies | Entrust, Sentinel and other packages
-Compiling assets | Laravel Mix | Grunt, Gulp, 3rd party packages
-Development Environment | Homestead | Docker
+Compiling assets | Laravel Mix, Vite | Grunt, Gulp, 3rd party packages
+Development Environment | Laravel Sail, Homestead | Docker
 Deployment | Laravel Forge | Deployer and other solutions
-Unit testing | PHPUnit, Mockery | Phpspec
+Unit testing | PHPUnit, Mockery | Phpspec, Pest
 Browser testing | Laravel Dusk | Codeception
 DB | Eloquent | SQL, Doctrine
 Templates | Blade | Twig
 Working with data | Laravel collections | Arrays
 Form validation | Request classes | 3rd party packages, validation in controller
 Authentication | Built-in | 3rd party packages, your own solution
-API authentication | Laravel Passport | 3rd party JWT and OAuth packages
+API authentication | Laravel Passport, Laravel Sanctum | 3rd party JWT and OAuth packages
 Creating API | Built-in | Dingo API and similar packages
 Working with DB structure | Migrations | Working with DB structure directly
 Localization | Built-in | 3rd party packages
@@ -536,7 +567,7 @@ DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
 ### **از قرارداد های لاراول برای نامگذاری ها استفاده کنید**
 
-از استاندارد های php که به [PSR](http://www.php-fig.org/psr/psr-2/) معروف است استفاده کنید.
+از استاندارد های php که به [PSR](https://www.php-fig.org/psr/psr-12/) معروف است استفاده کنید.
  
 همچنین روش های نامگذاری مورد قبول جامعه کاربری لاراول:
 
@@ -546,7 +577,7 @@ DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 ------------ | ------------- | ------------- | -------------
 Controller | اسامی مفرد | ArticleController | ~~ArticlesController~~
 Route | اسامی جمع | articles/1 | ~~article/1~~
-Named route | روش snake_case همراه با نقاط اتصال | users.show_active | ~~users.show-active, show-active-users~~
+Route name | روش snake_case همراه با نقاط اتصال | users.show_active | ~~users.show-active, show-active-users~~
 Model | اسامی مفرد | User | ~~Users~~
 hasOne or belongsTo relationship | اسامی مفرد | articleComment | ~~articleComments, article_comment~~
 All other relationships | اسامی جمع | articleComments | ~~articleComment, article_comments~~
@@ -566,8 +597,12 @@ Object | توصیفی و اسامی مفرد | $activeUser = User::active()->fir
 Config and language files index | snake_case | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
 View | kebab-case | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 Config | snake_case | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-Contract (interface) | صفت یا اسم | Authenticatable | ~~AuthenticationInterface, IAuthentication~~
+Contract (interface) | صفت یا اسم | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | صفت | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
 <div dir="rtl">
 
@@ -624,11 +659,11 @@ $request->name;
 
 ### **به جای ایجاد یک object با new، از IoC container و facades استفاده کنید.**
 
-ایجاد یک object جدید با کلمه new یک اتصال کامل بین class ها و تست های پیچیده ایجاد میکند! بهتر است از IoC container یا facades استفاده کنید. [این بخش از مطلب تا جایی که من متوجه شدم مربوط به مباحث توسعه تست محور میباشد که من آشنایی زیادی ندارم ولی بعد از مطالعه و تکمیل اطلاعاتم این بخش را با توضیح تکمیلی، کامل خواهم کرد.]
+به‌جای این که آبجکت‌ها را مستقیما در هرجایی با کلمه کلیدی new ایجاد و استفاده کنید، از امکان IoC لاراول استفاده کنید. چرا که با این کار عملا dependency های هر چیزی را در صورت نیاز آن inject‌ میکنیم که به ما قدرت استفاده از مفهوم تست‌نویسی را میدهد.
 
 ❌ روش اشتباه:
 
-</div
+</div>
 
 ```php
 $user = new User;
@@ -646,7 +681,7 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->all());
 ```
@@ -716,11 +751,42 @@ public function getSomeDateAttribute($date)
 
 [🔝 بازگشت به فهرست](#فهرست-مطالب)
 
-### **دیگر قواعد توسعه روش قابل قبول (بدون فهرست)**
+### **در فایل های route خود هیچوقت منطق برنامه را قرار ندهید.**
 
-- در فایل های route خود هیچوقت منطق برنامه را قرار ندهید.
 
-- تا حد ممکن از vanilla PHP در فایل های blade استفاده نکنید.
+❌ روش اشتباه:
+
+</div>
+
+```php
+// Route
+Route::get('user/1', function (User $user) {
+    return new UserResource($user);
+});
+```
+<div dir="rtl">
+
+✔️ روش قابل قبول:
+
+</div>
+
+```php
+// Route
+Route::get('user/1', 'UserController@show');
+
+// Controlelr
+class UserController extends Controller 
+{
+    public function show(User $user) {
+        return new UserResource($user);
+    }
+}
+```
+<div dir="rtl">
+
+[🔝 بازگشت به فهرست](#فهرست-مطالب)
+
+### **تا حد ممکن از PHP خام در فایل های blade استفاده نکنید.**
 
 [🔝 بازگشت به فهرست](#فهرست-مطالب)
 

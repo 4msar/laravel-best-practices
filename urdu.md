@@ -2,25 +2,21 @@
 
 You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
-Translations:
+## <p dir="rtl">ترجمے:</p>
 
 [Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (by [Protoqol](https://github.com/Protoqol))
-
-[Indonesia](indonesia.md) (by [P0rguy](https://github.com/p0rguy), [Doni Ahmad](https://github.com/donyahmd))
 
 [한국어](https://github.com/xotrs/laravel-best-practices) (by [cherrypick](https://github.com/xotrs))
 
 [日本語](japanese.md) (by [2bo](https://github.com/2bo))
 
-[简体中文](chinese.md) (by [xiaoyi](https://github.com/Shiloh520))
-
-[繁體中文](traditional-chinese.md) (by [woeichern](https://github.com/woeichern))
+[漢語](chinese.md) (by [xiaoyi](https://github.com/Shiloh520))
 
 [ภาษาไทย](thai.md) (by [kongvut sangkla](https://github.com/kongvut))
 
 [বাংলা](bangla.md) (by [Anowar Hossain](https://github.com/AnowarCST))
 
-[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/ohmydevops))
+[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/amirbagh75))
 
 [Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
@@ -47,54 +43,53 @@ Translations:
 [العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
 
 [اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
-
+ 
 [![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
-## Contents
+## <p dir="rtl">انڈیکس</p>
 
-[Single responsibility principle](#single-responsibility-principle)
+[<p dir="rtl">واحد ذمہ داری کا اصول</p>](#1)
 
-[Fat models, skinny controllers](#fat-models-skinny-controllers)
+[<p dir="rtl">بڑے models ، چھوٹے controllers!</p>](#2)
 
-[Validation](#validation)
+[<p dir="rtl">توثیق</p>](#3)
 
-[Business logic should be in service class](#business-logic-should-be-in-service-class)
+[<p dir="rtl">کاروباری منطق service class میں ہونی چاہیے۔</p>](#4)
 
-[Don't repeat yourself (DRY)](#dont-repeat-yourself-dry)
+[<p dir="rtl">اپنے آپ کو نہ دہرائیں (DRY)</p>](#5)
+،
+[<p dir="rtl">Query Builderاور raw SQL queries پر Eloquent استعمال کرنے کو  ترجیح دیں ۔ arrays پر collections کو ترجیح دیں۔</p>](#6)
 
-[Prefer to use Eloquent over using Query Builder and raw SQL queries. Prefer collections over arrays](#prefer-to-use-eloquent-over-using-query-builder-and-raw-sql-queries-prefer-collections-over-arrays)
+[<p dir="rtl">بڑے پیمانے پر تفویض</p>](#7)
 
-[Mass assignment](#mass-assignment)
+[<p dir="rtl">Blade templates میں queries نہ  چلایئں اور eager loading کا استعمال کریں (N + 1 مسئلہ)</p>](#8)
 
-[Do not execute queries in Blade templates and use eager loading (N + 1 problem)](#do-not-execute-queries-in-blade-templates-and-use-eager-loading-n--1-problem)
+[<p dir="rtl">اپنے کوڈ پر تبصرہ کریں ، لیکن تبصرے پر وضاحتی method اور variables ناموں کو ترجیح دیں</p>](#9)
 
-[Chunk data for data-heavy tasks](#chunk-data-for-data-heavy-tasks)
+[<p dir="rtl">Blade templates میں JS اور CSS نہ ڈالیں اور PHP Classes میں کوئی HTML نہ ڈالیں۔</p>](#10)
 
-[Comment your code, but prefer descriptive method and variable names over comments](#comment-your-code-but-prefer-descriptive-method-and-variable-names-over-comments)
+[<p dir="rtl">کوڈ میں ٹیکسٹ کی بجائے config، لینگویج فائلز اور constants استعمال کریں۔</p>](#11)
 
-[Do not put JS and CSS in Blade templates and do not put any HTML in PHP classes](#do-not-put-js-and-css-in-blade-templates-and-do-not-put-any-html-in-php-classes)
+[<p dir="rtl">Laravel کے معیاری ٹولز کا استعمال کریں جو کمیونٹی نے قبول کیے ہیں۔</p>](#12)
 
-[Use config and language files, constants instead of text in the code](#use-config-and-language-files-constants-instead-of-text-in-the-code)
+[<p dir="rtl">Laravel کےاپنے نام رکھنے کے  طریقوں پر عمل کریں .</p>](#13)
 
-[Use standard Laravel tools accepted by community](#use-standard-laravel-tools-accepted-by-community)
+[<p dir="rtl">جہاں ممکن ہو مختصر اور زیادہ پڑھنے کے قابل syntax کا استعمال کریں۔</p>](#14)
 
-[Follow Laravel naming conventions](#follow-laravel-naming-conventions)
+[<p dir="rtl">نئی Class کے بجائے IoC کنٹینر یا facades استعمال کریں۔</p>](#15)
 
-[Use shorter and more readable syntax where possible](#use-shorter-and-more-readable-syntax-where-possible)
+[<p dir="rtl">`.env` فائل سے غلطہ راست ڈیٹا حاصل نہ کریں۔</p>](#16)
 
-[Use IoC container or facades instead of new Class](#use-ioc-container-or-facades-instead-of-new-class)
+[<p dir="rtl">تاریخوں کو معیاری شکل میں محفوظ کریں۔ ڈیٹ فارمیٹ میں ترمیم کرنے کے لیے accessors اور mutators کا استعمال کریں۔</p>](#17)
 
-[Do not get data from the `.env` file directly](#do-not-get-data-from-the-env-file-directly)
+[<p dir="rtl">دوسرے اچھے طریقے۔</p>](#18)
 
-[Store dates in the standard format. Use accessors and mutators to modify date format](#store-dates-in-the-standard-format-use-accessors-and-mutators-to-modify-date-format)
+### <p dir="rtl">1</p>
+### **<p dir="rtl">واحد ذمہ داری کا اصول</p>**
 
-[Other good practices](#other-good-practices)
+<p dir="rtl">ایک class اور ایک method کی صرف ایک ذمہ داری ہونی چاہیے۔</p>
 
-### **Single responsibility principle**
-
-A class and a method should have only one responsibility.
-
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 public function getFullNameAttribute(): string
@@ -107,7 +102,7 @@ public function getFullNameAttribute(): string
 }
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 public function getFullNameAttribute(): string
@@ -131,13 +126,13 @@ public function getFullNameShort(): string
 }
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Fat models, skinny controllers**
+### <p dir="rtl">2</p>
+### **<p dir="rtl">بڑے models ، چھوٹے controllers!</p>**
 
-Put all DB related logic into Eloquent models.
-
-Bad:
+<p dir="rtl">اگر آپ  Query Builder یا raw SQL queries استعمال کر رہے ہیں تو تمام DB سے متعلقہ منطق کو Eloquent models  یا Repository کی classes میں ڈالیں۔</p>
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 public function index()
@@ -152,7 +147,7 @@ public function index()
 }
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 public function index()
@@ -162,7 +157,7 @@ public function index()
 
 class Client extends Model
 {
-    public function getWithNewOrders(): Collection
+    public function getWithNewOrders()
     {
         return $this->verified()
             ->with(['orders' => function ($q) {
@@ -173,13 +168,13 @@ class Client extends Model
 }
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Validation**
+### <p dir="rtl">3</p>
+### **<p dir="rtl">توثیق</p>**
 
-Move validation from controllers to Request classes.
-
-Bad:
+<p dir="rtl">توثیق کو controllers سے Request classes میں منتقل کریں۔</p>
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 public function store(Request $request)
@@ -194,7 +189,7 @@ public function store(Request $request)
 }
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 public function store(PostRequest $request)
@@ -204,7 +199,7 @@ public function store(PostRequest $request)
 
 class PostRequest extends Request
 {
-    public function rules(): array
+    public function rules()
     {
         return [
             'title' => 'required|unique:posts|max:255',
@@ -215,13 +210,14 @@ class PostRequest extends Request
 }
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Business logic should be in service class**
+### <p dir="rtl">4</p>
+### **<p dir="rtl">کاروباری منطق service class میں ہونی چاہیے۔</p>**
 
-A controller must have only one responsibility, so move business logic from controllers to service classes.
+<p dir="rtl">ایک controller کی صرف ایک ذمہ داری ہونی چاہیے ، لہذا کاروباری منطق کو controller سے service classes  میں منتقل کریں۔</p>
 
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 public function store(Request $request)
@@ -234,7 +230,7 @@ public function store(Request $request)
 }
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 public function store(Request $request)
@@ -246,7 +242,7 @@ public function store(Request $request)
 
 class ArticleService
 {
-    public function handleUploadedImage($image): void
+    public function handleUploadedImage($image)
     {
         if (!is_null($image)) {
             $image->move(public_path('images') . 'temp');
@@ -255,13 +251,16 @@ class ArticleService
 }
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Don't repeat yourself (DRY)**
+### <p dir="rtl">5</p>
+### **<p dir="rtl">اپنے آپ کو نہ دہرائیں (DRY)</p>**
 
-Reuse code when you can. SRP is helping you to avoid duplication. Also, reuse Blade templates, use Eloquent scopes etc.
+<p dir="rtl">جب ممکن ہو تو کوڈ کو دوبارہ استعمال کریں۔ SRP آپ کو نقل سے بچنے میں مدد دے رہا ہے۔ نیز ، Blade templates کو دوبارہ استعمال کریں </p>
 
-Bad:
+<p dir="rtl"> Eloquent scopesوغیرہ استعمال کریں۔</p>
+ 
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 public function getActive()
@@ -277,20 +276,20 @@ public function getArticles()
 }
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 public function scopeActive($q)
 {
-    return $q->where('verified', true)->whereNotNull('deleted_at');
+    return $q->where('verified', 1)->whereNotNull('deleted_at');
 }
 
-public function getActive(): Collection
+public function getActive()
 {
     return $this->active()->get();
 }
 
-public function getArticles(): Collection
+public function getArticles()
 {
     return $this->whereHas('user', function ($q) {
             $q->active();
@@ -298,13 +297,14 @@ public function getArticles(): Collection
 }
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Prefer to use Eloquent over using Query Builder and raw SQL queries. Prefer collections over arrays**
+### <p dir="rtl">6</p>
+### **<p dir="rtl">Query Builderاور raw SQL queries پر Eloquentاستعمال کرنے کو  ترجیح دیں ۔ arrays پر collections کو ترجیح دیں۔</p>**
 
-Eloquent allows you to write readable and maintainable code. Also, Eloquent has great built-in tools like soft deletes, events, scopes etc.
+<p dir="rtl"> Eloquent آپ کو پڑھنے کے قابل اور دیکھ بھال کے قابل کوڈ لکھنے کی اجازت دیتا ہے۔ نیز ، Eloquent کے پاس بلٹ ان ٹولز ہیں جیسے soft deletes, events, scopes وغیرہ۔</p> 
 
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```sql
 SELECT *
@@ -321,17 +321,18 @@ AND `active` = '1'
 ORDER BY `created_at` DESC
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 Article::has('user.profile')->verified()->latest()->get();
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Mass assignment**
+### <p dir="rtl">7</p>
+### **<p dir="rtl">بڑے پیمانے پر تفویض</p>**
 
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 $article = new Article;
@@ -344,17 +345,19 @@ $article->category_id = $category->id;
 $article->save();
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 $category->article()->create($request->validated());
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Do not execute queries in Blade templates and use eager loading (N + 1 problem)**
+### <p dir="rtl">8</p>
+### **<p dir="rtl">Blade templates میں queries نہ  چلایئں اور eager loading کا استعمال کریں (N + 1 مسئلہ)</p>**
 
-Bad (for 100 users, 101 DB queries will be executed):
+<p dir="rtl">❌ غلط طریقہ:</p>
+<p dir="rtl">غلط (100 صارفین کے لیے ، 101 DB queries استعمال ہوں گی ):</p>
 
 ```blade
 @foreach (User::all() as $user)
@@ -362,7 +365,8 @@ Bad (for 100 users, 101 DB queries will be executed):
 @endforeach
 ```
 
-Good (for 100 users, 2 DB queries will be executed):
+<p dir="rtl">✔️ درست طریقہ:</p>
+<p dir="rtl">غلط (100 صارفین کے لیے ، 2 DB queries استعمال ہوں گی ):</p>
 
 ```php
 $users = User::with('profile')->get();
@@ -372,58 +376,42 @@ $users = User::with('profile')->get();
 @endforeach
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Chunk data for data-heavy tasks**
+### <p dir="rtl">9</p>
+### **<p dir="rtl">اپنے کوڈ پر تبصرہ کریں ، لیکن تبصرے پر وضاحتی method اور variables ناموں کو ترجیح دیں</p>**
 
-Bad:
-
-```php
-$users = $this->get();
-
-foreach ($users as $user) {
-    ...
-}
-```
-
-Good:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
-$this->chunk(500, function ($users) {
-    foreach ($users as $user) {
-        ...
-    }
-});
-```
-
-[🔝 Back to contents](#contents)
-
-### **Prefer descriptive method and variable names over comments**
-
-Bad:
-
-```php
-// Determine if there are any joins
 if (count((array) $builder->getQuery()->joins) > 0)
 ```
 
-Good:
+<p dir="rtl">بہتر طریقہ۔:</p>
+
+```php
+// Determine if there are any joins.
+if (count((array) $builder->getQuery()->joins) > 0)
+```
+
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 if ($this->hasJoins())
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Do not put JS and CSS in Blade templates and do not put any HTML in PHP classes**
+### <p dir="rtl">10</p>
+### **<p dir="rtl">Blade templates میں JS اور CSS نہ ڈالیں اور PHP Classes میں کوئی HTML نہ ڈالیں۔</p>**
 
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
-Better:
+<p dir="rtl">✔️ بہتر طریقہ۔:</p>
 
 ```php
 <input id="article" type="hidden" value='@json($article)'>
@@ -433,22 +421,24 @@ Or
 <button class="js-fav-article" data-article='@json($article)'>{{ $article->name }}<button>
 ```
 
-In a Javascript file:
+کی Javascript فائل میں۔:
 
 ```javascript
 let article = $('#article').val();
 ```
 
-The best way is to use specialized PHP to JS package to transfer the data.
+<p dir="rtl">ڈیٹا منتقل کرنے کے لیے خصوصی PHP to JS package  کا استعمال کرنا ہے۔</p>
 
-[🔝 Back to contents](#contents)
 
-### **Use config and language files, constants instead of text in the code**
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-Bad:
+### <p dir="rtl">11</p>
+### **<p dir="rtl">کوڈ میں ٹیکسٹ کی بجائے config، لینگویج فائلز اور constants استعمال کریں۔</p>**
+
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
-public function isNormal(): bool
+public function isNormal()
 {
     return $article->type === 'normal';
 }
@@ -456,7 +446,7 @@ public function isNormal(): bool
 return back()->with('message', 'Your article has been added!');
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 public function isNormal()
@@ -467,13 +457,15 @@ public function isNormal()
 return back()->with('message', __('app.article_added'));
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Use standard Laravel tools accepted by community**
+### <p dir="rtl">12</p>
+### **<p dir="rtl">Laravel کے معیاری ٹولز کا استعمال کریں جو کمیونٹی نے قبول کیے ہیں۔</p>**
 
-Prefer to use built-in Laravel functionality and community packages instead of using 3rd party packages and tools. Any developer who will work with your app in the future will need to learn new tools. Also, chances to get help from the Laravel community are significantly lower when you're using a 3rd party package or tool. Do not make your client pay for that.
+<p dir="rtl">تھرڈ پارٹی پیکجز اور ٹولز استعمال کرنے کے بجائے بلٹ ان Laravel functionality اور کمیونٹی پیکجز استعمال کرنے کو ترجیح دیں۔ کوئی بھی ڈویلپر جو مستقبل میں آپ کی ایپ کے ساتھ کام کرے گا اسے نئے ٹولز سیکھنے کی ضرورت ہوگی۔ نیز ، جب آپ تھرڈ پارٹی پیکیج یا ٹول استعمال کر رہے ہیں تو Laravel کمیونٹی سے مدد حاصل کرنے کے امکانات نمایاں طور پر کم ہیں۔ اپنے کلائنٹ کو اس کی ادائیگی کرنے پر مجبور نہ کریں ۔
+ </p>
 
-Task | Standard tools | 3rd party tools
+کام | معیاری ٹولز  | تھرڈ پارٹی ٹولز
 ------------ | ------------- | -------------
 Authorization | Policies | Entrust, Sentinel and other packages
 Compiling assets | Laravel Mix, Vite | Grunt, Gulp, 3rd party packages
@@ -495,15 +487,15 @@ Generating testing data | Seeder classes, Model Factories, Faker | Creating test
 Task scheduling | Laravel Task Scheduler | Scripts and 3rd party packages
 DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Follow Laravel naming conventions**
+### <p dir="rtl">13</p>
+### **<p dir="rtl">Laravel کےاپنے نام رکھنے کے  طریقوں پر عمل کریں</p>**
+<p dir="rtl">پیروی <a href="http://www.php-fig.org/psr/psr-2">PSR  معیارات </a></p>
+ 
+ <p dir="rtl">نیز ، Laravel کمیونٹی کے ذریعہ قبول کردہ نام رکھنے کے طریقوں  پر عمل کریں:</p>
 
-Follow [PSR standards](https://www.php-fig.org/psr/psr-12/).
-
-Also, follow naming conventions accepted by Laravel community:
-
-What | How | Good | Bad
+کیا  | کیسے | درست طریقہ | غلط طریقہ
 ------------ | ------------- | ------------- | -------------
 Controller | singular | ArticleController | ~~ArticlesController~~
 Route | plural | articles/1 | ~~article/1~~
@@ -534,34 +526,35 @@ Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
 FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
 Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Use shorter and more readable syntax where possible**
+### <p dir="rtl">14</p>
+### **<p dir="rtl">جہاں ممکن ہو مختصر اور زیادہ پڑھنے کے قابل syntax کا استعمال کریں۔</p>**
 
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 $request->session()->get('cart');
 $request->input('name');
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 session('cart');
 $request->name;
 ```
 
-More examples:
+<p dir="rtl">مزید مثالیں:</p>
 
-Common syntax | Shorter and more readable syntax
+عام syntax | چھوٹا syntax اور زیادہ پڑھنے کے قابل 
 ------------ | -------------
 `Session::get('cart')` | `session('cart')`
 `$request->session()->get('cart')` | `session('cart')`
 `Session::put('cart', $data)` | `session(['cart' => $data])`
 `$request->input('name'), Request::get('name')` | `$request->name, request('name')`
 `return Redirect::back()` | `return back()`
-`is_null($object->relation) ? null : $object->relation->id` | `optional($object->relation)->id` (in PHP 8: `$object->relation?->id`)
+`is_null($object->relation) ? null : $object->relation->id` | `optional($object->relation)->id`
 `return view('index')->with('title', $title)->with('client', $client)` | `return view('index', compact('title', 'client'))`
 `$request->has('value') ? $request->value : 'default';` | `$request->get('value', 'default')`
 `Carbon::now(), Carbon::today()` | `now(), today()`
@@ -573,20 +566,21 @@ Common syntax | Shorter and more readable syntax
 `->select('id', 'name')->get()` | `->get(['id', 'name'])`
 `->first()->name` | `->value('name')`
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Use IoC / Service container instead of new Class**
+### <p dir="rtl">15</p>
+### **<p dir="rtl">نئی Class کے بجائے IoC کنٹینر یا facades استعمال کریں۔</p>**
 
-new Class syntax creates tight coupling between classes and complicates testing. Use IoC container or facades instead.
+<p dir="rtl">new Class syntax کے درمیان سخت جوڑا coupling ہے اور testing کو پیچیدہ بناتا ہے۔ اس کے بجائے IoC container یا facades استعمال کریں۔</p>
 
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 $user = new User;
 $user->create($request->validated());
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 public function __construct(User $user)
@@ -599,19 +593,20 @@ public function __construct(User $user)
 $this->user->create($request->validated());
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Do not get data from the `.env` file directly**
+### <p dir="rtl">16</p>
+### **<p dir="rtl">`.env` فائل سے غلطہ راست ڈیٹا حاصل نہ کریں۔</p>**
 
-Pass the data to config files instead and then use the `config()` helper function to use the data in an application.
+<p dir="rtl">config فائلوں کو ڈیٹا منتقل کریں اور پھر ایپلیکیشن میں ڈیٹا استعمال کرنے کے لیے `()config` ہیلپر فنکشن استعمال کریں۔</p>
 
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 $apiKey = env('API_KEY');
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 // config/api.php
@@ -621,48 +616,40 @@ Good:
 $apiKey = config('api.key');
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Store dates in the standard format. Use accessors and mutators to modify date format**
+### <p dir="rtl">17</p>
+### **<p dir="rtl">تاریخوں کو معیاری شکل میں محفوظ کریں۔ ڈیٹ فارمیٹ میں ترمیم کرنے کے لیے accessors اور mutators کا استعمال کریں۔</p>**
 
-A date as a string is less reliable than an object instance, e.g. a Carbon-instance. It's recommended to pass Carbon objects between classes instead of date strings. Rendering should be done in the display layer (templates):
-
-Bad:
+<p dir="rtl">❌ غلط طریقہ:</p>
 
 ```php
 {{ Carbon::createFromFormat('Y-d-m H-i', $object->ordered_at)->toDateString() }}
 {{ Carbon::createFromFormat('Y-d-m H-i', $object->ordered_at)->format('m-d') }}
 ```
 
-Good:
+<p dir="rtl">✔️ درست طریقہ:</p>
 
 ```php
 // Model
-protected $dates = [
-    'ordered_at',
-];
+protected $dates = ['ordered_at', 'created_at', 'updated_at'];
+public function getSomeDateAttribute($date)
+{
+    return $date->format('m-d');
+}
 
-// Blade view
+// ملف العرض
 {{ $object->ordered_at->toDateString() }}
-{{ $object->ordered_at->format('m-d') }}
+{{ $object->ordered_at->some_date }}
 ```
 
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)
 
-### **Other good practices**
+### <p dir="rtl">18</p>
+### **<p dir="rtl">دوسرے اچھے طریقے۔</p>**
 
-Avoid using patterns and tools that are alien to Laravel and similar frameworks (i.e. RoR, Django). If you like Symfony (or Spring) approach for building apps, it's a good idea to use these frameworks instead.
+<p dir="rtl">routes کی فائلوں میں کبھی بھی کوئی منطق نہ ڈالیں۔</p>
 
-Never put any logic in routes files.
+<p dir="rtl">Blade templates میں vanilla PHP کا استعمال کم سے کم کریں۔</p>
 
-Minimize usage of vanilla PHP in Blade templates.
-
-Use in-memory DB for testing.
-
-Do not override standard framework features to avoid problems related to updating the framework version and many other issues.
-
-Use modern PHP syntax where possible, but don't forget about readability.
-
-Avoid using View Composers and similar tools unless you really know what you're doing. In most cases, there is a better way to solve the problem.
-
-[🔝 Back to contents](#contents)
+[<p dir="rtl">🔝 انڈیکس پر واپس جائیں</p>](#انڈیکس)

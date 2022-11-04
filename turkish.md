@@ -1,5 +1,7 @@
 ![Laravel best practices](/images/logo-turkish.png?raw=true)
 
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
 Çeviriler:
 
 [Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (by [Protoqol](https://github.com/Protoqol))
@@ -14,7 +16,7 @@
 
 [漢語](chinese.md) (by [xiaoyi](https://github.com/Shiloh520))
 
-[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/amirbagh75))
+[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/ohmydevops))
 
 [Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
@@ -24,18 +26,19 @@
 
 [Français](french.md) (by [Mikayil S.](https://github.com/mikayilsrt))
 
-[Polski](https://github.com/maciejjeziorski/laravel-best-practices-pl) (by [Maciej Jeziorski](https://github.com/maciejjeziorski))
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
 
 [Türkçe](turkish.md) (by [Burak](https://github.com/ikidnapmyself))
 
-[Deutsche](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
+[Deutsch](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [Italiana](italian.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
-Bu metin Laravel için SOLID prensipleri, patternler vb. şeylerin uygulaması değildir. Burada, Laravel projelerinde 
-geliştiriciler tarafından dikkate alınmayan iyi ve kötü pratiklerin karşılaştırmalarını bulacaksınız.
+[العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
 
-**Çevirmenin Notu #1: Wikipedia'da Türkçe başlığı olmaması nedeniyle SOLID prensipleri hakkında açıklayıcı bir [Ekşi Sözlük entrysi](https://eksisozluk.com/entry/50438875)*  
+[اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
+
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 ## İçerik
 
@@ -82,7 +85,7 @@ Bir class ya da method'un tek bir görevi ve amacı olmalıdır.
 Kötü:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -95,22 +98,22 @@ public function getFullNameAttribute()
 İyi:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
@@ -176,7 +179,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -184,8 +187,8 @@ public function store(Request $request)
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -216,7 +219,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -227,7 +230,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -326,6 +329,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -343,7 +347,7 @@ $category->article()->create($request->validated());
 
 Kötü (100 kullanıcı için, 101 DB tane query çalıştırılacak):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -353,8 +357,6 @@ Kötü (100 kullanıcı için, 101 DB tane query çalıştırılacak):
 
 ```php
 $users = User::with('profile')->get();
-
-...
 
 @foreach ($users as $user)
     {{ $user->profile->name }}
@@ -390,7 +392,7 @@ if ($this->hasJoins())
 
 Kötü:
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -452,17 +454,17 @@ hazırlamak yerine, tercih edilen paketleri kullanın ve bu maliyetlerden kaçı
 Yapılacak | Standart araç | 3rd party araçlar
 ------------ | ------------- | -------------
 Authorization (Yetkilendirme) | Policies | Entrust, Sentinel vb.
-Compiling assets (CSS ve JS Derleme) | Laravel Mix | Grunt, Gulp, 3rd party paketler
-Geliştirme Ortamı | Homestead | Docker
+Compiling assets (CSS ve JS Derleme) | Laravel Mix, Vite | Grunt, Gulp, 3rd party paketler
+Geliştirme Ortamı | Laravel Sail, Homestead | Docker
 Deployment | Laravel Forge | Deployer and other solutions
-Unit testing | PHPUnit, Mockery | Phpspec
+Unit testing | PHPUnit, Mockery | Phpspec, Pest
 Browser testing | Laravel Dusk | Codeception
 DB | Eloquent | SQL, Doctrine
 Template | Blade | Twig
 Veri işleme | Laravel collections | Arrays
 Form doğrulama | Request classları | 3rd party paketler, controllerda doğrulama
 Authentication (Doğrulama) | Dahili | 3rd party paketler ya da kendi çözümünüz
-API authentication (Doğrulama) | Laravel Passport | 3rd party JWT and OAuth packetleri
+API authentication (Doğrulama) | Laravel Passport, Laravel Sanctum | 3rd party JWT and OAuth packetleri
 API Oluşturma | Dahili | Dingo API vb.
 DB Yapısı | Migrations | Doğrudan DB yönetimi
 Lokalizasyon (Yerelleştirme) | Dahili | 3rd party paketler
@@ -475,15 +477,15 @@ DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
 ### **Laravel'de isimlendirme**
 
- [PSR standards](http://www.php-fig.org/psr/psr-2/) takip edin.
- 
- Ayrıca, topluluk tarafından kabul gören isimlendirmeler:
+[PSR standards](https://www.php-fig.org/psr/psr-12/) takip edin.
+
+Ayrıca, topluluk tarafından kabul gören isimlendirmeler:
 
 Ne | Nasıl | İyi | Kötü
 ------------ | ------------- | ------------- | -------------
 Controller | tekil | ArticleController | ~~ArticlesController~~
 Route | çoğul | articles/1 | ~~article/1~~
-Named route | snake_case ve dot notation (nokta kullanımı) | users.show_active | ~~users.show-active, show-active-users~~
+Route name | snake_case ve dot notation (nokta kullanımı) | users.show_active | ~~users.show-active, show-active-users~~
 Model | tekil | User | ~~Users~~
 hasOne or belongsTo relationship | tekil | articleComment | ~~articleComments, article_comment~~
 All other relationships | çoğul | articleComments | ~~articleComment, article_comments~~
@@ -503,8 +505,12 @@ Object | tanımlayıcı, tekil | $activeUser = User::active()->first() | ~~$user
 Config and language files index | snake_case | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
 View | kebab-case | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 Config | snake_case | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-Contract (interface) | sıfat ya da isim | Authenticatable | ~~AuthenticationInterface, IAuthentication~~
+Contract (interface) | sıfat ya da isim | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | sıfat | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | tekil | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | tekil | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
 [🔝 Başa dön](#içerik)
 
@@ -566,7 +572,7 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```

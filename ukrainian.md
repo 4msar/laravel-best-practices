@@ -1,6 +1,6 @@
 ![Найкращі практики Laravel](/images/logo-ukrainian.png?raw=true)
 
-Це не адаптація Laravel під принципи SOLID, схем тощо. Тут ви знайдете найкращі практики, які зазвичай ігнорують в справжніх Laravel проєктах. Також, рекомендую ознайомитися з [хорошими практиками в контексті PHP](https://github.com/jupeter/clean-code-php).
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 [Back to English version](README.md)
 
@@ -42,6 +42,8 @@
 
 [Інші хороші практики](#Інші-хороші-практики)
 
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
 ### **Принцип єдиної відповідальності (Single responsibility principle)**
 
 Клас та метод повинні мати лише одну відповідальність.
@@ -49,7 +51,7 @@
 Погано:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -62,22 +64,22 @@ public function getFullNameAttribute()
 Добре:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
@@ -142,7 +144,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -150,8 +152,8 @@ public function store(Request $request)
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -182,7 +184,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -193,7 +195,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -292,6 +294,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Додати категорію до статті
 $article->category_id = $category->id;
 $article->save();
@@ -309,7 +312,7 @@ $category->article()->create($request->validated());
 
 Погано (на 100 користувачів 101 запит у БД (базу даних)):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -319,8 +322,6 @@ $category->article()->create($request->validated());
 
 ```php
 $users = User::with('profile')->get();
-
-...
 
 @foreach ($users as $user)
     {{ $user->profile->name }}
@@ -356,7 +357,7 @@ if ($this->hasJoins())
 
 Погано:
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -415,17 +416,17 @@ return back()->with('message', __('app.article_added'));
 Завдання | Стандартні інструменти | Сторонні інструменти
 ------------ | ------------- | -------------
 Авторизація | Policies | Entrust, Sentinel and other packages
-Компіляція засобів | Laravel Mix | Grunt, Gulp, 3rd party packages
-Середовище розробки | Homestead | Docker
+Компіляція засобів | Laravel Mix, Vite | Grunt, Gulp, 3rd party packages
+Середовище розробки | Laravel Sail, Homestead | Docker
 Розгортання застосунків | Laravel Forge | Deployer and other solutions
-Unit тестування | PHPUnit, Mockery | Phpspec
+Unit тестування | PHPUnit, Mockery | Phpspec, Pest
 Тестування браузера | Laravel Dusk | Codeception
 База даних | Eloquent | SQL, Doctrine
 Шаблони | Blade | Twig
 Робота з даними | Laravel collections | Arrays
 Перевірка даних форми | Request classes | 3rd party packages, validation in controller
 Автентифікація | Built-in | 3rd party packages, your own solution
-API автентифікація | Laravel Passport | 3rd party JWT and OAuth packages
+API автентифікація | Laravel Passport, Laravel Sanctum | 3rd party JWT and OAuth packages
 Створення API | Built-in | Dingo API and similar packages
 Робота зі структурою БД | Migrations | Working with DB structure directly
 Локалізація | Built-in | 3rd party packages
@@ -438,9 +439,9 @@ API автентифікація | Laravel Passport | 3rd party JWT and OAuth pa
 
 ### **Дотримуйтеся домовленостей Laravel з найменування**
 
- Дотримуйтеся [стандартів PSR](http://www.php-fig.org/psr/psr-2/).
- 
- Також, дотримуйтеся домовленостей з найменування прийнятих спільнотою Laravel:
+Дотримуйтеся [стандартів PSR](https://www.php-fig.org/psr/psr-12/).
+
+Також, дотримуйтеся домовленостей з найменування прийнятих спільнотою Laravel:
 
 Що | Написання | Добре | Погано
 ------------ | ------------- | ------------- | -------------
@@ -466,8 +467,12 @@ API автентифікація | Laravel Passport | 3rd party JWT and OAuth pa
 Індекси в конфігураційних та мовних файлах | snake_case | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
 Вигляд | kebab-case | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 Конфігурація | snake_case | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-Домовленість (інтерфейс) | прикметник або іменник | Authenticatable | ~~AuthenticationInterface, IAuthentication~~
+Домовленість (інтерфейс) | прикметник або іменник | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | прикметник | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | однини | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
 [🔝 Назад до змісту](#Зміст)
 
@@ -529,7 +534,7 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```

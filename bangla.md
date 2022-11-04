@@ -1,5 +1,7 @@
 ![Laravel best practices](/images/logo-english.png?raw=true)
 
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
 অনুবাদঃ
 
 [Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (by [Protoqol](https://github.com/Protoqol))
@@ -12,7 +14,7 @@
 
 [ภาษาไทย](thai.md) (by [kongvut sangkla](https://github.com/kongvut))
 
-[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/amirbagh75))
+[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/ohmydevops))
 
 [Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
@@ -26,18 +28,21 @@
 
 [Français](french.md) (by [Mikayil S.](https://github.com/mikayilsrt))
 
-[Polski](https://github.com/maciejjeziorski/laravel-best-practices-pl) (by [Maciej Jeziorski](https://github.com/maciejjeziorski))
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
 
 [Türkçe](turkish.md) (by [Burak](https://github.com/ikidnapmyself))
 
-[Deutsche](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
+[Deutsch](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [Italiana](italian.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [বাংলা](bangla.md) (by [Anowar Hossain](https://github.com/AnowarCST))
 
+[العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
 
-এটা লারাভেল এর সাথে SOLID Principles বা Patterns সংযোজন নয়। এখানে আপনি সেরা অনুশীলন গুলা পাবেন যা বাস্তব জীবনে লারাভেল প্রজেক্টে সাধারণত অবহেলা করা হয়। 
+[اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
+
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 ## সূচীপত্র
 
@@ -84,7 +89,7 @@
 খারাপঃ
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -97,22 +102,22 @@ public function getFullNameAttribute()
 ভালঃ
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
@@ -177,7 +182,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -185,8 +190,8 @@ public function store(Request $request)
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -217,7 +222,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -228,7 +233,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -325,6 +330,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -342,7 +348,7 @@ $category->article()->create($request->validated());
 
 খারাপ (১০০ জন ইউজারের জন্য, ১০১ টা DB queries এক্সিকিউট হবে):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -352,8 +358,6 @@ $category->article()->create($request->validated());
 
 ```php
 $users = User::with('profile')->get();
-
-...
 
 @foreach ($users as $user)
     {{ $user->profile->name }}
@@ -389,7 +393,7 @@ if ($this->hasJoins())
 
 খারাপঃ
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -446,17 +450,17 @@ return back()->with('message', __('app.article_added'));
 কাজ | স্ট্যান্ডার্ড টুলস | থার্ডপার্টি টুলস
 ------------ | ------------- | -------------
 Authorization | Policies | Entrust, Sentinel and other packages
-Compiling assets | Laravel Mix | Grunt, Gulp, 3rd party packages
-Development Environment | Homestead | Docker
+Compiling assets | Laravel Mix, Vite | Grunt, Gulp, 3rd party packages
+Development Environment | Laravel Sail, Homestead | Docker
 Deployment | Laravel Forge | Deployer and other solutions
-Unit testing | PHPUnit, Mockery | Phpspec
+Unit testing | PHPUnit, Mockery | Phpspec, Pest
 Browser testing | Laravel Dusk | Codeception
 DB | Eloquent | SQL, Doctrine
 Templates | Blade | Twig
 Working with data | Laravel collections | Arrays
 Form validation | Request classes | 3rd party packages, validation in controller
 Authentication | Built-in | 3rd party packages, your own solution
-API authentication | Laravel Passport | 3rd party JWT and OAuth packages
+API authentication | Laravel Passport, Laravel Sanctum | 3rd party JWT and OAuth packages
 Creating API | Built-in | Dingo API and similar packages
 Working with DB structure | Migrations | Working with DB structure directly
 Localization | Built-in | 3rd party packages
@@ -469,16 +473,15 @@ DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
 ### **লারাভেল নেমিং কনভেনশন অনুসরণ করুন**
 
- [PSR standards](http://www.php-fig.org/psr/psr-2/) অনুসরণ করুন।
- 
- 
- এছাড়াও, লারাভেল কমিউনিটি কর্তিক স্বীকৃত নেমিং কনভেনশন (নামকরণ) ফলো করা যায়ঃ
+[PSR standards](https://www.php-fig.org/psr/psr-12/) অনুসরণ করুন।
+
+এছাড়াও, লারাভেল কমিউনিটি কর্তৃক স্বীকৃত নামকরণের রীতি(নেমিং কনভেনশন) অনুসরণ করা যায়ঃ
 
 কি | কিভাবে | ভাল | খারাপ
 ------------ | ------------- | ------------- | -------------
 Controller | singular | ArticleController | ~~ArticlesController~~
 Route | plural | articles/1 | ~~article/1~~
-Named route | snake_case with dot notation | users.show_active | ~~users.show-active, show-active-users~~
+Route name | snake_case with dot notation | users.show_active | ~~users.show-active, show-active-users~~
 Model | singular | User | ~~Users~~
 hasOne or belongsTo relationship | singular | articleComment | ~~articleComments, article_comment~~
 All other relationships | plural | articleComments | ~~articleComment, article_comments~~
@@ -498,8 +501,12 @@ Object | descriptive, singular | $activeUser = User::active()->first() | ~~$user
 Config and language files index | snake_case | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
 View | kebab-case | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 Config | snake_case | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-Contract (interface) | adjective or noun | Authenticatable | ~~AuthenticationInterface, IAuthentication~~
+Contract (interface) | adjective or noun | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | adjective | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
 [🔝 সূচীপত্রে ফিরে যান](#সূচীপত্র)
 
@@ -561,7 +568,7 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```
@@ -570,7 +577,7 @@ $this->user->create($request->validated());
 
 ### **`.env` ফাইলের ডাটা সরাসরি নিবেন না**
 
-বরং ডাটা গুলোকে কনফিগ ফাইলের মধ্যে রাখুন এবং `config()` হেল্পার ফাংশন ব্যাবহার করে আপনার এপ্লিকেশনে ব্যাবহার করুন।
+বরং ডাটা গুলোকে কনফিগ ফাইলের মধ্যে রাখুন এবং `config()` হেল্পার ফাংশন ব্যাবহার করে আপনার এপ্লিকেশনে ব্যবহার করুন।
 
 খারাপঃ
 

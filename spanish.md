@@ -1,53 +1,101 @@
 ![Laravel best practices](/images/logo-spanish.png?raw=true)
 
-No se trata de una adaptación a Laravel de los principios SOLID ni de patrones, etcétera. Aquí encontrarás las mejores prácticas que, por lo general, son ignoradas en proyectos Laravel de la vida real.
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
+Traducciones:
+
+[Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (por [Protoqol](https://github.com/Protoqol))
+
+[Indonesia](indonesia.md) (por [P0rguy](https://github.com/p0rguy), [Doni Ahmad](https://github.com/donyahmd))
+
+[한국어](https://github.com/xotrs/laravel-best-practices) (por [cherrypick](https://github.com/xotrs))
+
+[日本語](japanese.md) (por [2bo](https://github.com/2bo))
+
+[简体中文](chinese.md) (por [xiaoyi](https://github.com/Shiloh520))
+
+[繁體中文](traditional-chinese.md) (por [woeichern](https://github.com/woeichern))
+
+[ภาษาไทย](thai.md) (por [kongvut sangkla](https://github.com/kongvut))
+
+[বাংলা](bangla.md) (por [Anowar Hossain](https://github.com/AnowarCST))
+
+[فارسی](persian.md) (por [amirhossein baghaie](https://github.com/ohmydevops))
+
+[Português](https://github.com/jonaselan/laravel-best-practices) (por [jonaselan](https://github.com/jonaselan))
+
+[Українська](ukrainian.md) (por [Tenevyk](https://github.com/tenevyk))
+
+[Русский](russian.md)
+
+[Tiếng Việt](https://chungnguyen.xyz/posts/code-laravel-lam-sao-cho-chuan) (por [Chung Nguyễn](https://github.com/nguyentranchung))
+
+[Español](spanish.md) (por [César Escudero](https://github.com/cedaesca))
+
+[Français](french.md) (por [Mikayil S.](https://github.com/mikayilsrt))
+
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
+
+[Türkçe](turkish.md) (por [Burak](https://github.com/ikidnapmyself))
+
+[Deutsch](german.md) (por [Sujal Patel](https://github.com/sujalpatel2209))
+
+[Italiana](italian.md) (por [Sujal Patel](https://github.com/sujalpatel2209))
+
+[Azərbaycanca](https://github.com/Maharramoff/laravel-best-practices-az) (por [Maharramoff](https://github.com/Maharramoff))
+
+[العربية](arabic.md) (por [ahmedsaoud31](https://github.com/ahmedsaoud31))
+
+[اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
+
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 ## Índice de contenido
 
-[Principio de propósito único](#principio-de-proposito-unico)
+[Principio de propósito único](#principio-de-propósito-único)
 
 [Modelos gordos, controladores delgados](#modelos-gordos-controladores-delgados)
 
-[Validación](#validacion)
+[Validación](#validación)
 
-[La lógica de negocios debe estar en una clase ayudante](#la-logica-de-negocios-debe-estar-en-una-clase-ayudante)
+[La lógica de negocios debe estar en una clase de servicio](#la-lógica-de-negocios-debe-estar-en-una-clase-de-servicio)
 
 [No te repitas (DRY)](#no-te-repitas-dry)
 
 [Prioriza el uso de Eloquent por sobre el constructor de consultas y consultas puras. Prioriza las colecciones sobre los arreglos](#prioriza-el-uso-de-eloquent-por-sobre-el-constructor-de-consultas-y-consultas-puras-prioriza-las-colecciones-sobre-los-arreglos)
 
-[Asignación en masa](#asignacion-en-masa)
+[Asignación en masa](#asignación-en-masa)
 
-[No ejecutes consultas en las plantillas blade y utiliza el cargado prematuro (Problema N + 1)](#no-ejecutes-consultas-en-las-plantillas-blade-y-utiliza-el-cargado-prematuro-problema-n--1))
+[No ejecutes consultas en las plantillas Blade y utiliza el cargado prematuro (Problema N + 1)](#no-ejecutes-consultas-en-las-plantillas-blade-y-utiliza-el-cargado-prematuro-problema-n--1))
 
-[Comenta tu código, pero prioriza los métodos y nombres de variables descriptivas por sobre los comentarios](#comenta-tu-codigo-pero-prioriza-los-metodos-y-nombres-de-variables-descriptivas-por-sobre-los-comentarios)
+[Comenta tu código, pero prioriza los métodos y nombres de variables descriptivas por sobre los comentarios](#comenta-tu-código-pero-prioriza-los-métodos-y-nombres-de-variables-descriptivas-por-sobre-los-comentarios)
 
-[No coloques JS ni CSS en las plantillas blade y no coloques HTML en clases de PHP](#no-coloques-js-ni-css-en-las-plantillas-blade-y-no-coloques-html-en-clases-de-php)
+[No coloques JS ni CSS en las plantillas Blade y no coloques HTML en clases de PHP](#no-coloques-js-ni-css-en-las-plantillas-blade-y-no-coloques-html-en-clases-de-php)
 
-[Utiliza los archivos de configuración y lenguaje en lugar de texto en el código](#utiliza-los-archivos-de-configuracion-y-lenguaje-en-lugar-de-texto-en-el-codigo)
+[Utiliza los archivos de configuración y lenguaje en lugar de texto en el código](#utiliza-los-archivos-de-configuración-y-lenguaje-en-lugar-de-texto-en-el-código)
 
-[Utiliza las herramientas estándar de Laravel aceptadas por la comunidad](#utiliza-las-herramientas-estandar-de-laravel-aceptadas-por-la-comunidad)
+[Utiliza las herramientas estándar de Laravel aceptadas por la comunidad](#utiliza-las-herramientas-estándar-de-laravel-aceptadas-por-la-comunidad)
 
-[Sigue la convención de Laravel para los nombres](#sigue-la-convencion-de-laravel-para-los-nombres)
+[Sigue la convención de Laravel para los nombres](#sigue-la-convención-de-laravel-para-los-nombres)
 
 [Utiliza sintaxis cortas y legibles siempre que sea posible](#utiliza-sintaxis-cortas-y-legibles-siempre-que-sea-posible)
 
 [Utiliza contenedores IoC o fachadas en lugar de new Class](#utiliza-contenedores-ioc-o-fachadas-en-lugar-de-new-class)
 
-[No saques información directamente del archivo .env](#no-saques-informacion-directamente-del-archivo-env)
+[No saques información directamente del archivo .env](#no-saques-información-directamente-del-archivo-env)
 
-[Guarda las fechas en los formatos estándares. Utiliza los accessors y mutators para modificar el formato](#guarda-las-fechas-en-los-formatos-estandares-utiliza-los-accessors-y-mutators-para-modificar-el-formato)
+[Guarda las fechas en los formatos estándares. Utiliza los accessors y mutators para modificar el formato](#guarda-las-fechas-en-los-formatos-estándares-utiliza-los-accessors-y-mutators-para-modificar-el-formato)
 
-[Otras buenas prácticas](#otras-buenas-practicas)
+[Otras buenas prácticas](#otras-buenas-prácticas)
 
-### **Principio de proposito unico**
+### **Principio de propósito único**
 
 Las clases y los métodos deben tener un solo propósito.
 
 Malo:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -60,22 +108,22 @@ public function getFullNameAttribute()
 Bueno:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
@@ -85,7 +133,7 @@ public function getFullNameShort()
 
 ### **Modelos gordos, controladores delgados**
 
-Coloca toda la lógica relacionada a la base de datos en los modelos de Eloquent o en un repositorio de clases si estás utilizando el constructor de consultas o consultas SQL puras.
+Coloca toda la lógica relacionada a la base de datos en los modelos de Eloquent o en una clase Repositorio si estás utilizando el constructor de consultas o consultas SQL puras.
 
 Malo:
 
@@ -125,7 +173,7 @@ class Client extends Model
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **Validacion**
+### **Validación**
 
 Quita las validaciones de los controladores y colócalas en clases Request
 
@@ -140,7 +188,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -148,8 +196,8 @@ Bueno:
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -167,9 +215,9 @@ class PostRequest extends Request
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **La logica de negocios debe estar en una clase ayudante**
+### **La lógica de negocios debe estar en una clase de servicio**
 
-Un controlador solo debe tener un propósito, así que mueve la lógica de negocio fuera de los controladores y colócala en clases ayudantes.
+Un controlador solo debe tener un propósito, así que mueve la lógica de negocio fuera de los controladores y colócala en clases de servicio.
 
 Malo:
 
@@ -180,7 +228,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -191,7 +239,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -209,7 +257,7 @@ class ArticleService
 
 ### **No te repitas (DRY)**
 
-Reutiliza código cada vez que puedas.  El SRP te ayuda a evitar la duplicación. Reutiliza también las plantillas blade, utiliza eloquent scope, etcétera.
+Reutiliza código cada vez que puedas.  El SRP (Principio de Propósito Único) te ayuda a evitar la duplicación. Reutiliza también las plantillas Blade, utiliza scopes de Eloquent, etcétera.
 
 Malo:
 
@@ -279,7 +327,7 @@ Article::has('user.profile')->verified()->latest()->get();
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **Asignacion en masa**
+### **Asignación en masa**
 
 Malo:
 
@@ -288,6 +336,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -301,11 +350,11 @@ $category->article()->create($request->validated());
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **No ejecutes consultas en las plantillas blade y utiliza el cargado prematuro (Problema N + 1)**
+### **No ejecutes consultas en las plantillas Blade y utiliza el cargado prematuro (Problema N + 1)**
 
 Malo (Para 100 usuarios, se ejecutarán 101 consultas):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -316,8 +365,6 @@ Bueno (Para 100 usuarios, se ejecutarán 2 consultas):
 ```php
 $users = User::with('profile')->get();
 
-...
-
 @foreach ($users as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -325,7 +372,7 @@ $users = User::with('profile')->get();
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **Comenta tu codigo, pero prioriza los metodos y nombres de variables descriptivas por sobre los comentarios**
+### **Comenta tu código, pero prioriza los métodos y nombres de variables descriptivas por sobre los comentarios**
 
 Malo:
 
@@ -348,11 +395,11 @@ if ($this->hasJoins())
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **No coloques JS ni CSS en las plantillas blade y no coloques HTML en clases de PHP**
+### **No coloques JS ni CSS en las plantillas Blade y no coloques HTML en clases de PHP**
 
 Malo:
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -366,7 +413,7 @@ Or
 <button class="js-fav-article" data-article='@json($article)'>{{ $article->name }}<button>
 ```
 
-En el archivo JavaScript:
+En un archivo JavaScript:
 
 ```javascript
 let article = $('#article').val();
@@ -376,7 +423,7 @@ La mejor ruta es utilizar algún paquete especializado para transferir informaci
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **Utiliza los archivos de configuracion y lenguaje en lugar de texto en el codigo**
+### **Utiliza los archivos de configuración y lenguaje en lugar de texto en el código**
 
 Malo:
 
@@ -409,17 +456,17 @@ Prioriza la utilización de funcionalidades integradas y los paquetes de la comu
 Tarea | Herramienta estándar | Herramientas de terceras personas
 ------------ | ------------- | -------------
 Autorización | Policies | Entrust, Sentinel y otros paquetes
-Compilar assets | Laravel Mix | Grunt, Gulp, paquetes de terceros
-Entorno de desarrollo | Homestead | Docker
+Compilar assets | Laravel Mix, Vite | Grunt, Gulp, paquetes de terceros
+Entorno de desarrollo | Laravel Sail, Homestead | Docker
 Deployment | Laravel Forge | Deployer y otras soluciones
-Unit testing | PHPUnit, Mockery | Phpspec
+Unit testing | PHPUnit, Mockery | Phpspec, Pest
 Testeo en el navegador | Laravel Dusk | Codeception
 Base de datos | Eloquent | SQL, Doctrine
 Plantillas | Blade | Twig
 Trabajar con data | Laravel collections | Arreglos
 Validación de formularios | Clases Request | Paquetes de terceros, validación en el controlador
 Autenticación | Integrada | Paquetes de terceros, solución propia
-Autenticación para API's | Laravel Passport | Paquetes oAuth y JWT de terceros
+Autenticación para API's | Laravel Passport, Laravel Sanctum | Paquetes oAuth y JWT de terceros
 Creación de API's | Integrado | Dingo API y paquetes similares
 Estructura de la base de datos | Migraciones | Trabajar directamente con la estructura
 Localización | Integrada | Paquetes de terceros
@@ -430,11 +477,11 @@ Base de datos | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **Sigue la convencion de Laravel para los nombres**
+### **Sigue la convención de Laravel para los nombres**
 
- Sigue los [estándares PSR](http://www.php-fig.org/psr/psr-2/).
- 
- También, sigue la convención aceptada por la comunidad:
+Sigue los [estándares PSR](https://www.php-fig.org/psr/psr-12/).
+
+También, sigue la convención aceptada por la comunidad:
 
 Qué | Cómo | Bueno | Malo
 ------------ | ------------- | ------------- | -------------
@@ -447,7 +494,7 @@ Cualquier otra relación | plural | comentariosArticulo | ~~comentarioArticulo, 
 Tabla | plural | comentarios_articulo | ~~comentario_articulo, comentariosArticulo~~
 Tabla de pivote | Nombres de modelos en singular y en orden alfabético | articulo_usuario | ~~usuario_articulo, articulos_usuarios~~
 Columna de tabla | snake_case sin el nombre del modelo | meta_titulo | ~~MetaTitulo; articulo_meta_titulo~~
-Propiedad de mdelo | snake_case | $model->created_at | ~~$model->createdAt~~
+Propiedad de modelo | snake_case | $model->created_at | ~~$model->createdAt~~
 Clave foránea | Nombre en singular del modelo con el sufijo _id | articulo_id | ~~articuloId, id_articulo, articulos_id~~
 Clave primaria | - | id | ~~id_personalizado~~
 Migración | - | 2017_01_01_000000_create_articles_table | ~~2017_01_01_000000_articles~~
@@ -460,8 +507,12 @@ Objeto | descriptivo, singular | $usuarioActivo = Usuario::active()->first() | ~
 Índice de archivos de configuración y lenguaje | snake_case | articulos_habilitados | ~~articulosHabilitados; articulos-habilitados~~
 Vistas | kebab-case | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 Configuración | snake_case | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-Contrato (interface) | adjetivo o sustantivo | Autenticable | ~~interfaceAutenticacion, IAutenticacion~~
+Contrato (interface) | adjetivo o sustantivo | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | adjetivo | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
 [🔝 Volver al índice](#índice-de-contenido)
 
@@ -523,14 +574,14 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **No saques informacion directamente del archivo `.env`**
+### **No saques información directamente del archivo `.env`**
 
 En lugar de ello, pasa la información a un archivo de configuración y luego utiliza el ayudante `config()` para obtener la información en tu aplicación.
 
@@ -552,7 +603,7 @@ $apiKey = config('api.key');
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **Guarda las fechas en los formatos estandares. Utiliza los accessors y mutators para modificar el formato**
+### **Guarda las fechas en los formatos estándares. Utiliza los accessors y mutators para modificar el formato**
 
 Malo:
 
@@ -578,10 +629,10 @@ public function getSomeDateAttribute($date)
 
 [🔝 Volver al índice](#índice-de-contenido)
 
-### **Otras buenas practicas**
+### **Otras buenas prácticas**
 
 No coloques ningún tipo de lógica en los archivos de rutas.
 
-Minimiza el uso de PHP vanilla en las plantillas blade.
+Minimiza el uso de PHP vanilla en las plantillas Blade.
 
 [🔝 Volver al índice](#índice-de-contenido)

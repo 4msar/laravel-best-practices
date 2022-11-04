@@ -1,5 +1,7 @@
 ![Laravel ベストプラクティス](/images/logo-japanese.png?raw=true)
 
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
+
 翻訳:
 
 [Nederlands](https://github.com/Protoqol/Beste-Laravel-Praktijken) (by [Protoqol](https://github.com/Protoqol))
@@ -10,7 +12,7 @@
 
 [Русский](russian.md)
 
-[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/amirbagh75))
+[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/ohmydevops))
 
 [Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
@@ -20,40 +22,41 @@
 
 [Français](french.md) (by [Mikayil S.](https://github.com/mikayilsrt))
 
-[Polski](https://github.com/maciejjeziorski/laravel-best-practices-pl) (by [Maciej Jeziorski](https://github.com/maciejjeziorski))
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
 
 [Türkçe](turkish.md) (by [Burak](https://github.com/ikidnapmyself))
 
-[Deutsche](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
+[Deutsch](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [Italiana](italian.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
-これはSOLID原則やパターンなどをLavavelに適用させたものではありません。
-ここでは、実際のLaravelプロジェクトでは通常無視されるベストプラクティスを見つけることができます。
+[العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
+
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 ## コンテンツ
 
 [単一責任の原則](#単一責任の原則)
 
-[ファットモデル, スキニーコントローラ](#ファットモデル、スキニーコントローラ)
+[ファットモデル、スキニーコントローラ](#ファットモデルスキニーコントローラ)
 
 [バリデーション](#バリデーション)
 
 [ビジネスロジックはサービスクラスの中に書く](#ビジネスロジックはサービスクラスの中に書く)
 
-[繰り返し書かない (DRY)](#繰り返し書かない-(DRY))
+[繰り返し書かない (DRY)](#繰り返し書かない-dry)
 
-[クエリビルダや生のSQLクエリよりもEloquentを優先して使い、配列よりもコレクションを優先する](#クエリビルダや生のSQLクエリよりもEloquentを優先して使い、配列よりもコレクションを優先する)
+[クエリビルダや生のSQLクエリよりもEloquentを優先して使い、配列よりもコレクションを優先する](#クエリビルダや生のsqlクエリよりもeloquentを優先して使い配列よりもコレクションを優先する)
 
 [マスアサインメント](#マスアサインメント)
 
-[Bladeテンプレート内でクエリを実行しない。Eager Lodingを使う(N + 1問題)](#Bladeテンプレート内でクエリを実行しない。Eager-Lodingを使う(N-+-1問題))
+[Bladeテンプレート内でクエリを実行しない。Eager Lodingを使う(N + 1問題)](#bladeテンプレート内でクエリを実行しないeager-lodingを使うn--1問題)
 
-[コメントを書く。ただしコメントよりも説明的なメソッド名と変数名を付けるほうが良い](#コメントを書く。ただしコメントよりも説明的なメソッド名と変数名を付けるほうが良い)
+[コメントを書く。ただしコメントよりも説明的なメソッド名と変数名を付けるほうが良い](#コメントを書くただしコメントよりも説明的なメソッド名と変数名を付けるほうが良い)
 
-[JSとCSSをBladeテンプレートの中に入れない、PHPクラスの中にHTMLを入れない](#JSとCSSをBladeテンプレートの中に入れない、PHPクラスの中にHTMLを入れない)
+[JSとCSSをBladeテンプレートの中に入れない、PHPクラスの中にHTMLを入れない](#jsとcssをbladeテンプレートの中に入れないphpクラスの中にhtmlを入れない)
 
-[コード内の文字列の代わりにconfigファイルとlanguageのファイル、定数を使う](#コード内の文字列の代わりにconfigファイルとlanguageのファイル、定数を使う)
+[コード内の文字列の代わりにconfigファイルとlanguageのファイル、定数を使う](#コード内の文字列の代わりにconfigファイルとlanguageのファイル定数を使う)
 
 [コミュニティに受け入れられた標準のLaravelツールを使う](#コミュニティに受け入れられた標準のLaravelツールを使う)
 
@@ -63,9 +66,9 @@
 
 [newの代わりにIoCコンテナもしくはファサードを使う](#newの代わりにIoCコンテナもしくはファサードを使う)
 
-[`.env`ファイルのデータを直接参照しない](#`.env`ファイルのデータを直接参照しない)
+[`.env`ファイルのデータを直接参照しない](#envファイルのデータを直接参照しない)
 
-[日付を標準フォーマットで保存する。アクセサとミューテータを使って日付フォーマットを変更する](#日付を標準フォーマットで保存する。アクセサとミューテータを使って日付フォーマットを変更する)
+[日付を標準フォーマットで保存する。アクセサとミューテータを使って日付フォーマットを変更する](#日付を標準フォーマットで保存するアクセサとミューテータを使って日付フォーマットを変更する)
 
 [その他 グッドプラクティス](#その他-グッドプラクティス)
 
@@ -76,7 +79,7 @@
 Bad:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -89,22 +92,22 @@ public function getFullNameAttribute()
 Good:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
@@ -169,7 +172,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -177,8 +180,8 @@ Good:
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -209,7 +212,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -220,7 +223,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -317,6 +320,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -334,7 +338,7 @@ $category->article()->create($request->validated());
 
 Bad (100ユーザに対して、101回のDBクエリが実行される):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
@@ -344,8 +348,6 @@ Good (100ユーザに対して、2回のDBクエリが実行される):
 
 ```php
 $users = User::with('profile')->get();
-
-...
 
 @foreach ($users as $user)
     {{ $user->profile->name }}
@@ -381,7 +383,7 @@ if ($this->hasJoins())
 
 Bad:
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -439,17 +441,17 @@ return back()->with('message', __('app.article_added'));
 タスク | 標準ツール | サードパーティ製ツール
 ------------ | ------------- | -------------
 認可 | Policies | Entrust, Sentinel または他のパッケージ
-アセットコンパイル | Laravel Mix | Grunt, Gulp, サードパーティ製パッケージ
-開発環境 | Homestead | Docker
+アセットコンパイル | Laravel Mix, Vite | Grunt, Gulp, サードパーティ製パッケージ
+開発環境 | Laravel Sail, Homestead | Docker
 デプロイ | Laravel Forge | Deployer またはその他ソリューション
-単体テスト| PHPUnit, Mockery | Phpspec
+単体テスト| PHPUnit, Mockery | Phpspec, Pest
 ブラウザテスト | Laravel Dusk | Codeception
 DB | Eloquent | SQL, Doctrine
 テンプレート | Blade | Twig
 データの取り扱い | Laravel collections | Arrays
 フォームバリデーション | Request classes | サードパーティ製パッケージ、コントローラ内でバリデーション
 認証 | 標準組み込み | サードパーティ製パッケージ、独自実装
-API 認証 | Laravel Passport | サードパーティ製の JWT や OAuth パッケージ
+API 認証 | Laravel Passport, Laravel Sanctum | サードパーティ製の JWT や OAuth パッケージ
 API作成 | 標準組み込み | Dingo API や類似パッケージ
 DB構造の取り扱い | Migrations | 直接DB構造を扱う
 ローカライゼーション | 標準組み込み | サードパーティ製パッケージ
@@ -462,9 +464,9 @@ DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
 ### **Laravelの命名規則に従う**
 
- [PSR](http://www.php-fig.org/psr/psr-2/)に従います。
- 
- また、Laravelコミュニティに受け入れられた命名規則に従います。
+[PSR](https://www.php-fig.org/psr/psr-12/)に従います。
+
+また、Laravelコミュニティに受け入れられた命名規則に従います。
 
 対象 | 規則 | Good | Bad
 ------------ | ------------- | ------------- | -------------
@@ -490,8 +492,12 @@ Pivotテーブル | 単数形 モデル名のアルファベット順 | article_
 設定ファイルと言語ファイルのインデックス | スネークケース | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
 ビュー | ケバブケース | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 コンフィグ | スネークケース | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-契約 (インターフェイス) | 形容詞または名詞 | Authenticatable | ~~AuthenticationInterface, IAuthentication~~
+契約 (インターフェイス) | 形容詞または名詞 | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
 Trait | 形容詞 | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
 [🔝 コンテンツに戻る](#コンテンツ)
 
@@ -553,7 +559,7 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```

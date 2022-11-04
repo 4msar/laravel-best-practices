@@ -1,4 +1,6 @@
-![Laravel best practices](/images/logo-english.png?raw=true)
+![Laravel best practices](/images/logo-german.png?raw=true)
+
+You might also want to check out the [real-world Laravel example application](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
 Translations:
 
@@ -10,9 +12,13 @@ Translations:
 
 [漢語](chinese.md) (by [xiaoyi](https://github.com/Shiloh520))
 
+[中文維基百科](traditional-chinese.md) (by [woeichern](https://github.com/woeichern))
+
 [ภาษาไทย](thai.md) (by [kongvut sangkla](https://github.com/kongvut))
 
-[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/amirbagh75))
+[বাংলা](bangla.md) (by [Anowar Hossain](https://github.com/AnowarCST))
+
+[فارسی](persian.md) (by [amirhossein baghaie](https://github.com/ohmydevops))
 
 [Português](https://github.com/jonaselan/laravel-best-practices) (by [jonaselan](https://github.com/jonaselan))
 
@@ -26,64 +32,68 @@ Translations:
 
 [Français](french.md) (by [Mikayil S.](https://github.com/mikayilsrt))
 
-[Polski](https://github.com/maciejjeziorski/laravel-best-practices-pl) (by [Maciej Jeziorski](https://github.com/maciejjeziorski))
+[Polski](polish.md) (by [Karol Pietruszka](https://github.com/pietrushek))
 
 [Türkçe](turkish.md) (by [Burak](https://github.com/ikidnapmyself))
 
-[Deutsche](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
+[Deutsch](german.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
 [Italiana](italian.md) (by [Sujal Patel](https://github.com/sujalpatel2209))
 
-Es handelt sich nicht um eine Laravel-Anpassung von SOLID-Prinzipien, Mustern usw. Hier finden Sie die Best Practices, die in echten Laravel-Projekten normalerweise ignoriert werden.
+[Azərbaycanca](https://github.com/Maharramoff/laravel-best-practices-az) (by [Maharramoff](https://github.com/Maharramoff))
 
-## Contents
+[العربية](arabic.md) (by [ahmedsaoud31](https://github.com/ahmedsaoud31))
 
-[Prinzip der Einzelverantwortung](#single-responsibility-principle)
+[اردو](urdu.md) (by [RizwanAshraf1](https://github.com/RizwanAshraf1))
 
-[Fette Models, dünne Controller](#fat-models-skinny-controllers)
+[![Laravel example app](/images/laravel-real-world-banner.png?raw=true)](https://github.com/alexeymezenin/laravel-realworld-example-app)
 
-[Validierung](#validation)
+## Inhaltsverzeichnis
 
-[Geschäftslogik sollte in der Serviceklasse sein](#business-logic-should-be-in-service-class)
+[Single-Responsibility-Prinzip](#single-responsibility-prinzip)
 
-[Wiederhole dich nicht (DRY)](#dont-repeat-yourself-dry)
+[Fette Models, schlanke Controller](#fette-models-schlanke-controller)
 
-[Ziehen Sie es vor, Eloquent anstelle von Query Builder und unformatierten SQL-Abfragen zu verwenden. Ziehen Sie Sammlungen Arrays vor](#prefer-to-use-eloquent-over-using-query-builder-and-raw-sql-queries-prefer-collections-over-arrays)
+[Validierung](#validierung)
 
-[Massenzuordnung](#mass-assignment)
+[Geschäftslogik sollte in einer Serviceklasse sein](#geschäftslogik-sollte-in-einer-serviceklasse-sein)
 
-[Führen Sie keine Abfragen in Blade-Vorlagen aus und verwenden Sie das eifrige Laden (N + 1-Problem).](#do-not-execute-queries-in-blade-templates-and-use-eager-loading-n--1-problem)
+[Wiederholen Sie sich nicht / Don't repeat yourself (DRY)](#wiederholen-sie-sich-nicht--dont-repeat-yourself-dry)
 
-[Kommentieren Sie Ihren Code, bevorzugen Sie jedoch beschreibende Methoden- und Variablennamen gegenüber Kommentaren](#comment-your-code-but-prefer-descriptive-method-and-variable-names-over-comments)
+[Verwenden Sie Eloquent anstelle des Query Builders und rohen SQL-Abfragen. Bevorzugen Sie Collections gegenüber Arrays](#verwenden-sie-lieber-eloquent-anstelle-des-query-builders-und-rohen-sql-abfragen-bevorzugen-sie-collections-gegenüber-arrays)
 
-[Setzen Sie JS und CSS nicht in Blade-Vorlagen und setzen Sie kein HTML in PHP-Klassen](#do-not-put-js-and-css-in-blade-templates-and-do-not-put-any-html-in-php-classes)
+[Massenzuordnung](#massenzuordnung)
 
-[Verwenden Sie Konfigurations- und Sprachdateien, Konstanten anstelle von Text im Code
-](#use-config-and-language-files-constants-instead-of-text-in-the-code)
+[Führen Sie keine Abfragen in Blade-Templates aus und verwenden Sie eager loading (N + 1-Problem)](#führen-sie-keine-abfragen-in-blade-templates-aus-und-verwenden-sie-eager-loading-n--1-problem)
 
-[Verwenden Sie Standard-Laravel-Tools, die von der Community akzeptiert werden
-](#use-standard-laravel-tools-accepted-by-community)
+[Kommentieren Sie Ihren Code, aber bevorzugen Sie beschreibende Methoden- und Variablennamen gegenüber Kommentaren](#kommentieren-sie-ihren-code-aber-bevorzugen-sie-beschreibende-methoden--und-variablennamen-gegenüber-kommentaren)
 
-[Befolgen Sie die Namenskonventionen von Laravel](#follow-laravel-naming-conventions)
+[Schreiben Sie kein JS und CSS in Blade-Templates und schreiben Sie kein HTML in PHP-Klassen](#schreiben-sie-kein-js-und-css-in-blade-templates-und-schreiben-sie-kein-html-in-php-klassen)
 
-[Verwenden Sie nach Möglichkeit eine kürzere und besser lesbare Syntax](#use-shorter-and-more-readable-syntax-where-possible)
+[Verwenden Sie Konfigurations- und Sprachdateien und Konstanten anstelle von Text im Code](#verwenden-sie-konfigurations--und-sprachdateien-und-konstanten-anstelle-von-text-im-code)
 
-[Verwenden Sie IoC-Container oder -Fassaden anstelle der neuen Klasse](#use-ioc-container-or-facades-instead-of-new-class)
+[Verwenden Sie Standard-Laravel-Tools, die von der Community akzeptiert werden](#verwenden-sie-standard-laravel-tools-die-von-der-community-akzeptiert-werden)
 
-[Rufen Sie keine Daten direkt aus der ENV-Datei ab](#do-not-get-data-from-the-env-file-directly)
+[Befolgen Sie die Namenskonventionen von Laravel](#befolgen-sie-die-namenskonventionen-von-laravel)
 
-[Speichern Sie Daten im Standardformat. Verwenden Sie Accessoren und Mutatoren, um das Datumsformat zu ändern](#store-dates-in-the-standard-format-use-accessors-and-mutators-to-modify-date-format)
+[Verwenden Sie nach Möglichkeit eine kürzere und besser lesbare Syntax](#verwenden-sie-nach-möglichkeit-eine-kürzere-und-besser-lesbare-syntax)
 
-[Andere gute Praktiken](#other-good-practices)
+[Verwenden Sie IoC-Container oder Facades, statt neue Klassen zu instanziieren](#verwenden-sie-ioc-container-oder-facades-statt-neue-klassen-zu-instanziieren)
 
-### **Prinzip der Einzelverantwortung**
+[Rufen Sie Daten nicht direkt aus der `.env`-Datei ab](#rufen-sie-daten-nicht-direkt-aus-der-env-datei-ab)
+
+[Speichern Sie Datumsangaben im Standardformat. Verwenden Sie Accessoren und Mutatoren, um das Datumsformat zu ändern](#speichern-sie-datumsangaben-im-standardformat-verwenden-sie-accessoren-und-mutatoren-um-das-datumsformat-zu-ändern)
+
+[Andere gute Praktiken](#andere-gute-praktiken)
+
+### **Single-Responsibility-Prinzip**
 
 Eine Klasse und eine Methode sollten nur eine Verantwortung haben.
 
 Schlecht:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     if (auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified()) {
         return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
@@ -96,32 +106,32 @@ public function getFullNameAttribute()
 Gut:
 
 ```php
-public function getFullNameAttribute()
+public function getFullNameAttribute(): string
 {
     return $this->isVerifiedClient() ? $this->getFullNameLong() : $this->getFullNameShort();
 }
 
-public function isVerifiedClient()
+public function isVerifiedClient(): bool
 {
     return auth()->user() && auth()->user()->hasRole('client') && auth()->user()->isVerified();
 }
 
-public function getFullNameLong()
+public function getFullNameLong(): string
 {
     return 'Mr. ' . $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
 }
 
-public function getFullNameShort()
+public function getFullNameShort(): string
 {
     return $this->first_name[0] . '. ' . $this->last_name;
 }
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Fette Models, dünne Controller**
+### **Fette Models, schlanke Controller**
 
-Fügen Sie die gesamte DB-bezogene Logik in Eloquent-Modelle oder in Repository-Klassen ein, wenn Sie Query Builder oder Raw SQL-Abfragen verwenden.
+Fügen Sie die gesamte DB-bezogene Logik in Eloquent-Models oder in Repository-Klassen ein, wenn Sie Query Builder oder SQL-Rohabfragen verwenden.
 
 Schlecht:
 
@@ -159,7 +169,7 @@ class Client extends Model
 }
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ### **Validierung**
 
@@ -176,7 +186,7 @@ public function store(Request $request)
         'publish_at' => 'nullable|date',
     ]);
 
-    ....
+    ...
 }
 ```
 
@@ -184,8 +194,8 @@ Gut:
 
 ```php
 public function store(PostRequest $request)
-{    
-    ....
+{
+    ...
 }
 
 class PostRequest extends Request
@@ -201,11 +211,11 @@ class PostRequest extends Request
 }
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Geschäftslogik sollte in der Serviceklasse sein**
+### **Geschäftslogik sollte in einer Serviceklasse sein**
 
-Ein Controller muss nur eine Verantwortung haben. Verschieben Sie die Geschäftslogik von Controllern in Serviceklassen.
+Ein Controller darf nur eine Verantwortung haben, also verschieben Sie die Geschäftslogik von Controllern in Serviceklassen.
 
 Schlecht:
 
@@ -216,7 +226,7 @@ public function store(Request $request)
         $request->file('image')->move(public_path('images') . 'temp');
     }
     
-    ....
+    ...
 }
 ```
 
@@ -227,7 +237,7 @@ public function store(Request $request)
 {
     $this->articleService->handleUploadedImage($request->file('image'));
 
-    ....
+    ...
 }
 
 class ArticleService
@@ -241,11 +251,11 @@ class ArticleService
 }
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Wiederhole dich nicht (DRY)**
+### **Wiederholen Sie sich nicht / Don't repeat yourself (DRY)**
 
-Code wiederverwenden, wenn Sie können. SRP hilft Ihnen, Doppelarbeit zu vermeiden. Verwenden Sie auch Blade-Vorlagen, eloquente Bereiche usw.
+Verwenden Sie Code wieder, wenn Sie können. Das Single-Responsibility-Prinzip (SRP) hilft Doppelarbeit zu vermeiden. Verwenden Sie auch Blade Templates, Eloquent Scopes etc. wieder.
 
 Schlecht:
 
@@ -284,11 +294,11 @@ public function getArticles()
 }
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Verwenden Sie lieber Eloquent als Query Builder und SQL-Rohdatenabfragen. Ziehen Sie Sammlungen Arrays vor**
+### **Verwenden Sie lieber Eloquent anstelle des Query Builders und rohen SQL-Abfragen. Bevorzugen Sie Collections gegenüber Arrays**
 
-Mit Eloquent können Sie lesbaren und wartbaren Code schreiben. Außerdem verfügt Eloquent über großartige integrierte Tools wie Soft Deletes, Events, Scopes usw.
+Eloquent ermöglicht es, lesbaren und wartbaren Code schreiben. Außerdem verfügt Eloquent über großartige integrierte Tools wie Soft Deletes, Events, Scopes usw.
 
 Schlecht:
 
@@ -313,7 +323,7 @@ Gut:
 Article::has('user.profile')->verified()->latest()->get();
 ```
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ### **Massenzuordnung**
 
@@ -324,6 +334,7 @@ $article = new Article;
 $article->title = $request->title;
 $article->content = $request->content;
 $article->verified = $request->verified;
+
 // Add category to article
 $article->category_id = $category->id;
 $article->save();
@@ -335,33 +346,31 @@ Gut:
 $category->article()->create($request->validated());
 ```
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Führen Sie keine Abfragen in Blade-Vorlagen aus und verwenden Sie das eifrige Laden (N + 1-Problem).**
+### **Führen Sie keine Abfragen in Blade-Templates aus und verwenden Sie eager loading (N + 1-Problem)**
 
-Schlecht (for 100 users, 101 DB queries will be executed):
+Schlecht (für 100 Benutzer werden 101 Datenbankabfragen ausgeführt):
 
-```php
+```blade
 @foreach (User::all() as $user)
     {{ $user->profile->name }}
 @endforeach
 ```
 
-Gut (for 100 users, 2 DB queries will be executed):
+Gut (für 100 Benutzer werden 2 Datenbankabfragen ausgeführt):
 
 ```php
 $users = User::with('profile')->get();
-
-...
 
 @foreach ($users as $user)
     {{ $user->profile->name }}
 @endforeach
 ```
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Kommentieren Sie Ihren Code, bevorzugen Sie jedoch beschreibende Methoden- und Variablennamen gegenüber Kommentaren**
+### **Kommentieren Sie Ihren Code, aber bevorzugen Sie beschreibende Methoden- und Variablennamen gegenüber Kommentaren**
 
 Schlecht:
 
@@ -369,7 +378,7 @@ Schlecht:
 if (count((array) $builder->getQuery()->joins) > 0)
 ```
 
-Better:
+Besser:
 
 ```php
 // Determine if there are any joins.
@@ -382,13 +391,13 @@ Gut:
 if ($this->hasJoins())
 ```
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Setzen Sie JS und CSS nicht in Blade-Vorlagen und setzen Sie kein HTML in PHP-Klassen**
+### **Schreiben Sie kein JS und CSS in Blade-Templates und schreiben Sie kein HTML in PHP-Klassen**
 
 Schlecht:
 
-```php
+```javascript
 let article = `{{ json_encode($article) }}`;
 ```
 
@@ -397,12 +406,12 @@ Besser:
 ```php
 <input id="article" type="hidden" value='@json($article)'>
 
-Oder
+oder
 
 <button class="js-fav-article" data-article='@json($article)'>{{ $article->name }}<button>
 ```
 
-In einer Javascript-Datei:
+In einer JavaScript-Datei:
 
 ```javascript
 let article = $('#article').val();
@@ -410,9 +419,9 @@ let article = $('#article').val();
 
 Am besten verwenden Sie ein spezielles PHP-zu-JS-Paket, um die Daten zu übertragen.
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Verwenden Sie Konfigurations- und Sprachdateien, Konstanten anstelle von Text im Code**
+### **Verwenden Sie Konfigurations- und Sprachdateien und Konstanten anstelle von Text im Code**
 
 Schlecht:
 
@@ -436,70 +445,74 @@ public function isNormal()
 return back()->with('message', __('app.article_added'));
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ### **Verwenden Sie Standard-Laravel-Tools, die von der Community akzeptiert werden**
 
-Verwenden Sie vorzugsweise integrierte Laravel-Funktionen und Community-Pakete, anstatt Pakete und Tools von Drittanbietern zu verwenden. Jeder Entwickler, der in Zukunft mit Ihrer App arbeitet, muss neue Tools erlernen. Außerdem sind die Chancen, Hilfe von der Laravel-Community zu erhalten, erheblich geringer, wenn Sie ein Paket oder Tool eines Drittanbieters verwenden. Lassen Sie Ihren Kunden nicht dafür bezahlen.
+Verwenden Sie vorzugsweise integrierte Laravel-Funktionen und Community-Pakete, anstatt Pakete und Tools von Drittanbietern zu verwenden. Ansonsten muss jeder Entwickler, der in Zukunft an Ihrer App arbeitet, neue Tools erlernen. Außerdem sind die Chancen, Hilfe von der Laravel-Community zu erhalten, erheblich geringer, wenn Sie ein Paket oder Tool eines Drittanbieters verwenden. Lassen Sie Ihren Kunden nicht dafür bezahlen.
 
 Aufgabe | Standardwerkzeuge | Tools von Drittanbietern
 ------------ | ------------- | -------------
-Genehmigung | Richtlinien | Entrust, Sentinel und andere Pakete
-Assets zusammenstellen Laravel Mix | Grunzen, Schlucken, 3rd-Party-Pakete
-Entwicklungsumgebung | Gehöft | Docker
+Autorisierung | Policies | Entrust, Sentinel und andere Pakete
+Assets kompilieren | Laravel Mix, Vite | Grunt, Gulp, 3rd-Party-Pakete
+Entwicklungsumgebung | Laravel Sail, Homestead | Docker
 Bereitstellung | Laravel Forge | Deployer und andere Lösungen
-Einzelprüfung | PHPUnit, Spott | Phpspec
-Browsertests | Laravel Dämmerung | Codezeption
-DB | Eloquent | SQL, Lehre
-Vorlagen | Klinge | Zweig
-Mit Daten arbeiten | Laravel Sammlungen | Arrays
-Formularvalidierung | Klassen anfordern | Pakete von Drittanbietern, Validierung im Controller
-Authentifizierung | Eingebaut | Pakete von Drittanbietern, Ihre eigene Lösung
-API-Authentifizierung | Laravel Passport | JWT- und OAuth-Pakete von Drittanbietern
-API erstellen | Eingebaut | Dingo API und ähnliche Pakete
+Unit Tests | PHPUnit, Mockery | Phpspec, Pest
+Browsertests | Laravel Dusk | Codeception
+DB | Eloquent | SQL, Doctrine
+Templates | Blade | Twig
+Mit Daten arbeiten | Laravel Collections | Arrays
+Formularvalidierung | Request-Klassen | Pakete von Drittanbietern, Validierung im Controller
+Authentifizierung | Integriert | Pakete von Drittanbietern, Ihre eigene Lösung
+API-Authentifizierung | Laravel Passport, Laravel Sanctum | JWT- und OAuth-Pakete von Drittanbietern
+API erstellen | Integriert | Dingo API und ähnliche Pakete
 Mit DB-Struktur arbeiten | Migrationen | Direkt mit der DB-Struktur arbeiten
-Lokalisierung | Eingebaut | Pakete von Drittanbietern
-Echtzeit-Benutzeroberflächen | Laravel Echo, Drücker | Pakete von Drittanbietern und direktes Arbeiten mit WebSockets
-Testdaten generieren | Sämaschinenklassen, Modellfabriken, Faker | Testdaten manuell erstellen
+Lokalisierung | Integriert | Pakete von Drittanbietern
+Echtzeit-Benutzeroberflächen | Laravel Echo, Pusher | Pakete von Drittanbietern und direktes Arbeiten mit WebSockets
+Testdaten generieren | Seeder-Klassen, Model Factories, Faker | Testdaten manuell erstellen
 Aufgabenplanung | Laravel Task Scheduler | Skripte und Pakete von Drittanbietern
 DB | MySQL, PostgreSQL, SQLite, SQL Server | MongoDB
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ### **Befolgen Sie die Namenskonventionen von Laravel**
 
- Folgen [PSR standards](http://www.php-fig.org/psr/psr-2/).
- 
- Befolgen Sie außerdem die von der Laravel-Community akzeptierten Namenskonventionen:
+Folgen Sie den [PSR standards](https://www.php-fig.org/psr/psr-12/).
+
+Befolgen Sie außerdem die von der Laravel-Community akzeptierten Namenskonventionen:
 
 Was | Wie | Gut | Schlecht
 ------------ | ------------- | ------------- | -------------
-Controller | Singular | ArticleController | ~~ArticlesController~~
-Route | plural | Artikel / 1 |~~Artikel/1~~
+Controller | singular | ArticleController | ~~ArticlesController~~
+Route | plural | articles/1 | ~~article/1~~
 Benannte Route | snake_case mit Punktnotation | users.show_active |~~users.show-active, show-active-users~~
-Modell | Singular | Benutzer |~~Benutzer~~
-hasOne oder Zugehörigkeit zu einer Beziehung Singular | articleComment |~~articleComments, article_comment~~
-Alle anderen Beziehungen plural | articleComments | ~~articleComment, article_comments~~
-Tisch | plural | article_comments |~~article_comment, articleComments~~
-Schwenktisch | Singuläre Modellnamen in alphabetischer Reihenfolge article_user |~~user_article, articles_users~~
-Tabellenspalte | snake_case ohne Modellname | meta_title |~~MetTitle? article_title_title~~
-Modelleigenschaft | snake_case | $ model-> created_at | ~~$ model-> createdAt~~
+Model | singular | User |~~Users~~
+hasOne oder belongsTo Beziehung | singular | articleComment | ~~articleComments, article_comment~~
+Alle anderen Beziehungen | plural | articleComments | ~~articleComment, article_comments~~
+Tabelle | Plural | article_comments |~~article_comment, articleComments~~
+Pivot-Tabelle | singuläre Modellnamen in alphabetischer Reihenfolge | article_user | ~~user_article, articles_users~~
+Tabellenspalte | snake_case ohne Modellname | meta_title | ~~MetaTitle; article_title_title~~
+Model-Eigenschaft | snake_case | $model->created_at | ~~$model->createdAt~~
 Fremdschlüssel | singulärer Modellname mit Suffix _id | article_id | ~~ArticleId, id_article, articles_id~~
 Primärschlüssel | - | id | ~~custom_id~~
 Migration | - | 2017_01_01_000000_create_articles_table | ~~2017_01_01_000000_articles~~
-Methode | camelCase | getAll | ~~Nimm alle~~
-Methode im Ressourcencontroller | [table](https://laravel.com/docs/master/controllers#resource-controllers) | Geschäft | ~~saveArticle~~
-Methode in der Testklasse camelCase | testGuestCannotSeeArticle | ~~test_guest_cannot_see_article~~
-Variable | camelCase | $ articlesWithAuthor | ~~$ articles_with_author~~
-Sammlung | beschreibend, Plural | $ activeUsers = User :: active () -> get () | ~~$ active, $ data~~
-Objekt | beschreibend, einzigartig $ activeUser = User :: active ()->first() | ~~$users, $obj~~
-Konfigurations- und Sprachdateien index | snake_case | articles_enabled | ~~ArticlesEnabled; Artikel-fähig~~
-Ansicht | Döner-Etui | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
+Methode | camelCase | getAll | ~~get_all~~
+Methode im Ressourcencontroller | [Tabelle](https://laravel.com/docs/master/controllers#resource-controllers) | store | ~~saveArticle~~
+Methode in einer Testklasse | camelCase | testGuestCannotSeeArticle | ~~test_guest_cannot_see_article~~
+Variable | camelCase | $articlesWithAuthor | ~~$articles_with_author~~
+Collection | beschreibend, plural | $activeUsers = User::active()->get() | ~~$active, $data~~
+Objekt | beschreibend, singular | $activeUser = User::active()->first() | ~~$users, $obj~~
+Konfigurations- und Sprachdateien index | snake_case | articles_enabled | ~~ArticlesEnabled; articles-enabled~~
+View | kebab-case | show-filtered.blade.php | ~~showFiltered.blade.php, show_filtered.blade.php~~
 Config | snake_case | google_calendar.php | ~~googleCalendar.php, google-calendar.php~~
-Vertrag (Schnittstelle) | Adjektiv oder Substantiv Authentifizierbar | ~~AuthenticationInterface, IAuthentication~~
-Merkmal | Adjektiv | Meldepflichtig | ~~NotificationTrait~~
+Vertrag (Interface) | Adjektiv oder Substantiv | AuthenticationInterface | ~~Authenticatable, IAuthentication~~
+Trait | Adjektiv | Notifiable | ~~NotificationTrait~~
+Trait [(PSR)](https://www.php-fig.org/bylaws/psr-naming-conventions/) | adjective | NotifiableTrait | ~~Notification~~
+Enum | singular | UserType | ~~UserTypes~~, ~~UserTypeEnum~~
+FormRequest | singular | UpdateUserRequest | ~~UpdateUserFormRequest~~, ~~UserFormRequest~~, ~~UserRequest~~
+Seeder | singular | UserSeeder | ~~UsersSeeder~~
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ### **Verwenden Sie nach Möglichkeit eine kürzere und besser lesbare Syntax**
 
@@ -519,7 +532,7 @@ $request->name;
 
 Mehr Beispiele:
 
-Gemeinsame Syntax | Kürzere und lesbarere Syntax
+Gängige Syntax | Kürzere und lesbarere Syntax
 ------------ | -------------
 `Session::get('cart')` | `session('cart')`
 `$request->session()->get('cart')` | `session('cart')`
@@ -538,11 +551,11 @@ Gemeinsame Syntax | Kürzere und lesbarere Syntax
 `->select('id', 'name')->get()` | `->get(['id', 'name'])`
 `->first()->name` | `->value('name')`
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Verwenden Sie IoC-Container oder -Fassaden anstelle der neuen Klasse**
+### **Verwenden Sie IoC-Container oder Facades, statt neue Klassen zu instanziieren**
 
-Die neue Klassensyntax sorgt für eine enge Kopplung zwischen den Klassen und erschwert das Testen. Verwenden Sie stattdessen einen IoC-Container oder Fassaden.
+Die Syntax `new Class` erzeugt eine enge Kopplung zwischen Klassen und erschwert dadurch das Testen. Verwenden Sie stattdessen IoC-Container oder Facades.
 
 Schlecht:
 
@@ -559,16 +572,16 @@ public function __construct(User $user)
     $this->user = $user;
 }
 
-....
+...
 
 $this->user->create($request->validated());
 ```
 
-[🔝🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Rufen Sie keine Daten direkt aus der ENV-Datei ab**
+### **Rufen Sie Daten nicht direkt aus der `.env`-Datei ab**
 
-Übergeben Sie die Daten stattdessen an Konfigurationsdateien und verwenden Sie dann die Hilfefunktion `config ()`, um die Daten in einer Anwendung zu verwenden.
+Übergeben Sie die Daten stattdessen an eine Konfigurationsdatei und verwenden Sie dann die Hilfsfunktion `config()`, um die Daten in ihrer Anwendung zu verwenden.
 
 Schlecht:
 
@@ -582,13 +595,15 @@ Gut:
 // config/api.php
 'key' => env('API_KEY'),
 
-// Use the data
+// Verwendung der Daten
 $apiKey = config('api.key');
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-### **Speichern Sie Daten im Standardformat. Verwenden Sie Accessoren und Mutatoren, um das Datumsformat zu ändern**
+### **Speichern Sie Datumsangaben im Standardformat. Verwenden Sie Accessoren und Mutatoren, um das Datumsformat zu ändern**
+
+Strings für Datums sind generell weniger belastbar als Objekte (z.B. Carbon Objekte). Es ist empfehlenswert Carbon-Instanzen zwischen Klassen zu übergeben. Formatierung sollte in den blade Dateien erfolgen:
 
 Schlecht:
 
@@ -601,23 +616,21 @@ Gut:
 
 ```php
 // Model
-protected $dates = ['ordered_at', 'created_at', 'updated_at'];
-public function getSomeDateAttribute($date)
-{
-    return $date->format('m-d');
-}
+protected $dates = [
+    'ordered_at',
+];
 
-// View
+// Blade view
 {{ $object->ordered_at->toDateString() }}
-{{ $object->ordered_at->some_date }}
+{{ $object->ordered_at->format('m-d') }}
 ```
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ### **Andere gute Praktiken**
 
-Fügen Sie niemals Logik in Routendateien ein.
+Logik sollte nicht in Routes Dateien eingebaut werden.
 
-Minimieren Sie die Verwendung von Vanille-PHP in Blade-Vorlagen.
+Minimieren Sie die Verwendung von Vanilla PHP in Blade-Templates.
 
-[🔝Zurück zum Inhalt](#contents)
+[🔝 Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
